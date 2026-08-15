@@ -1,9 +1,13 @@
-import { drizzle } from "drizzle-orm/postgres-js";
+import { drizzle as drizzleD1 } from "drizzle-orm/d1";
+import { drizzle as drizzlePg } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as schema from "./schema";
 
-const connectionString = process.env.DATABASE_URL || "postgres://postgres:postgres@localhost:5432/recruitment_os";
+const globalEnv = (typeof process !== "undefined" ? process.env : {}) as any;
 
-// Disable prefetch as it is not supported for "Transaction" pool mode
-const client = postgres(connectionString, { prepare: false });
-export const db = drizzle(client, { schema });
+export const db = globalEnv.DB
+  ? drizzleD1(globalEnv.DB, { schema })
+  : drizzlePg(
+      postgres(globalEnv.DATABASE_URL || "postgres://postgres:postgres@localhost:5432/recruitment_os", { prepare: false }),
+      { schema }
+    );

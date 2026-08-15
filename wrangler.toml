@@ -1,0 +1,12 @@
+name = "recruitment-agency-os"
+compatibility_date = "2024-06-20"
+pages_build_output_dir = ".vercel/output/static"
+
+[vars]
+NODE_VERSION = "20"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "recruitment-agency-os-db"
+database_id = "your-d1-database-id"
+migration_dir = "drizzle"
