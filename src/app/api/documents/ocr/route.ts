@@ -3,6 +3,7 @@ import { getCurrentSession } from "@/lib/auth";
 import { ocrService } from "@/lib/ocr/service";
 import { db } from "@/db";
 import { workers, workerDocuments } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 export async function POST(request: Request) {
   try {

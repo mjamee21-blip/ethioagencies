@@ -3,6 +3,7 @@ import { getCurrentSession } from "@/lib/auth";
 import { processAgencyAIQuery } from "@/lib/ai/assistant";
 import { db } from "@/db";
 import { aiConversations } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 export async function POST(request: Request) {
   try {

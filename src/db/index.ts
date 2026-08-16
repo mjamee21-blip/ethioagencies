@@ -5,7 +5,7 @@ import * as schema from "./schema";
 
 const globalEnv = (typeof process !== "undefined" ? process.env : {}) as any;
 
-export const db = globalEnv.DB
+export const db: any = globalEnv.DB
   ? drizzleD1(globalEnv.DB, { schema })
   : drizzlePg(
       postgres(globalEnv.DATABASE_URL || "postgres://postgres:postgres@localhost:5432/recruitment_os", { prepare: false }),
