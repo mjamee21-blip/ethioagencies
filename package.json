@@ -4,19 +4,18 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npx @cloudflare/next-on-pages",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "pages:build": "npx @cloudflare/next-on-pages",
-    "preview": "npm run pages:build && wrangler pages dev .vercel/output/static",
-    "deploy": "npm run pages:build && wrangler pages deploy .vercel/output/static",
+    "pages:build": "next build",
+    "preview": "wrangler pages dev out",
+    "deploy": "next build && wrangler pages deploy out",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "db:push": "drizzle-kit push"
   },
   "dependencies": {
-    "@cloudflare/next-on-pages": "^1.13.5",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^2.4.3",
     "clsx": "^2.1.1",
