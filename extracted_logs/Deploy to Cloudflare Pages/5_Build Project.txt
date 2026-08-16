@@ -1,0 +1,56 @@
+﻿2026-08-16T21:23:11.1143866Z ##[group]Run npm run build
+2026-08-16T21:23:11.1144238Z [36;1mnpm run build[0m
+2026-08-16T21:23:11.1173090Z shell: /usr/bin/bash -e {0}
+2026-08-16T21:23:11.1173505Z ##[endgroup]
+2026-08-16T21:23:11.1988716Z 
+2026-08-16T21:23:11.1989864Z > recruitment-agency-os@0.1.0 build
+2026-08-16T21:23:11.1990356Z > next build
+2026-08-16T21:23:11.1990618Z 
+2026-08-16T21:23:11.5897738Z ⚠ No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+2026-08-16T21:23:11.6747371Z Attention: Next.js now collects completely anonymous telemetry regarding usage.
+2026-08-16T21:23:11.6748416Z This information is used to shape Next.js' roadmap and prioritize features.
+2026-08-16T21:23:11.6749475Z You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+2026-08-16T21:23:11.6750144Z https://nextjs.org/telemetry
+2026-08-16T21:23:11.6750356Z 
+2026-08-16T21:23:11.7204480Z   ▲ Next.js 14.2.5
+2026-08-16T21:23:11.7205658Z 
+2026-08-16T21:23:11.7597553Z    Creating an optimized production build ...
+2026-08-16T21:23:16.7915318Z Failed to compile.
+2026-08-16T21:23:16.7915647Z 
+2026-08-16T21:23:16.7915800Z ./src/app/login/page.tsx
+2026-08-16T21:23:16.7916598Z Error: 
+2026-08-16T21:23:16.7917735Z   [31mx[0m You're importing a component that needs useState. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.
+2026-08-16T21:23:16.7918740Z   [31m|[0m Learn more: https://nextjs.org/docs/getting-started/react-essentials
+2026-08-16T21:23:16.7919284Z   [31m|[0m 
+2026-08-16T21:23:16.7919577Z   [31m|[0m 
+2026-08-16T21:23:16.7920185Z    ,-[[36;1;4m/home/runner/work/ethioagencies/ethioagencies/src/app/login/page.tsx[0m:1:1]
+2026-08-16T21:23:16.7920698Z  [2m1[0m | "client";
+2026-08-16T21:23:16.7921008Z  [2m2[0m | 
+2026-08-16T21:23:16.7921487Z  [2m3[0m | import React, { useState } from "react";
+2026-08-16T21:23:16.7921992Z    : [31;1m                ^^^^^^^^[0m
+2026-08-16T21:23:16.7922514Z  [2m4[0m | import { useRouter } from "next/navigation";
+2026-08-16T21:23:16.7922896Z  [2m5[0m | 
+2026-08-16T21:23:16.7923296Z  [2m6[0m | export default function LoginPage() {
+2026-08-16T21:23:16.7923739Z    `----
+2026-08-16T21:23:16.7923905Z 
+2026-08-16T21:23:16.7924678Z   [31mx[0m You're importing a component that needs useRouter. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.
+2026-08-16T21:23:16.7925622Z   [31m|[0m Learn more: https://nextjs.org/docs/getting-started/react-essentials
+2026-08-16T21:23:16.7926229Z   [31m|[0m 
+2026-08-16T21:23:16.7927269Z   [31m|[0m 
+2026-08-16T21:23:16.7927920Z    ,-[[36;1;4m/home/runner/work/ethioagencies/ethioagencies/src/app/login/page.tsx[0m:1:1]
+2026-08-16T21:23:16.7928534Z  [2m1[0m | "client";
+2026-08-16T21:23:16.7928915Z  [2m2[0m | 
+2026-08-16T21:23:16.7929397Z  [2m3[0m | import React, { useState } from "react";
+2026-08-16T21:23:16.7930024Z  [2m4[0m | import { useRouter } from "next/navigation";
+2026-08-16T21:23:16.7930582Z    : [31;1m         ^^^^^^^^^[0m
+2026-08-16T21:23:16.7931011Z  [2m5[0m | 
+2026-08-16T21:23:16.7931483Z  [2m6[0m | export default function LoginPage() {
+2026-08-16T21:23:16.7932032Z  [2m7[0m |   const router = useRouter();
+2026-08-16T21:23:16.7932519Z    `----
+2026-08-16T21:23:16.7932756Z 
+2026-08-16T21:23:16.7933042Z Import trace for requested module:
+2026-08-16T21:23:16.7933512Z ./src/app/login/page.tsx
+2026-08-16T21:23:16.7933820Z 
+2026-08-16T21:23:16.7992387Z 
+2026-08-16T21:23:16.7995541Z > Build failed because of webpack errors
+2026-08-16T21:23:16.8115196Z ##[error]Process completed with exit code 1.

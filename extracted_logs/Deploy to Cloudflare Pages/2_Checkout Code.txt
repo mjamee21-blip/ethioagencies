@@ -1,0 +1,74 @@
+﻿2026-08-16T21:22:55.6630810Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-16T21:22:55.6637943Z ##[group]Run actions/checkout@v4
+2026-08-16T21:22:55.6638689Z with:
+2026-08-16T21:22:55.6639148Z   repository: mjamee21-blip/ethioagencies
+2026-08-16T21:22:55.6642733Z   token: ***
+2026-08-16T21:22:55.6643180Z   ssh-strict: true
+2026-08-16T21:22:55.6643638Z   ssh-user: git
+2026-08-16T21:22:55.6644100Z   persist-credentials: true
+2026-08-16T21:22:55.6644571Z   clean: true
+2026-08-16T21:22:55.6645010Z   sparse-checkout-cone-mode: true
+2026-08-16T21:22:55.6645548Z   fetch-depth: 1
+2026-08-16T21:22:55.6646207Z   fetch-tags: false
+2026-08-16T21:22:55.6646727Z   show-progress: true
+2026-08-16T21:22:55.6647182Z   lfs: false
+2026-08-16T21:22:55.6647603Z   submodules: false
+2026-08-16T21:22:55.6648167Z   set-safe-directory: true
+2026-08-16T21:22:55.6648694Z   allow-unsafe-pr-checkout: false
+2026-08-16T21:22:55.6649374Z ##[endgroup]
+2026-08-16T21:22:55.7530114Z Syncing repository: mjamee21-blip/ethioagencies
+2026-08-16T21:22:55.7532234Z ##[group]Getting Git version info
+2026-08-16T21:22:55.7533176Z Working directory is '/home/runner/work/ethioagencies/ethioagencies'
+2026-08-16T21:22:55.7534185Z [command]/usr/bin/git version
+2026-08-16T21:22:55.7579691Z git version 2.54.0
+2026-08-16T21:22:55.7594978Z ##[endgroup]
+2026-08-16T21:22:55.7607592Z Temporarily overriding HOME='/home/runner/work/_temp/9bd25179-f2f6-4b95-bf8d-51d302a2e22b' before making global git config changes
+2026-08-16T21:22:55.7609559Z Adding repository directory to the temporary git global config as a safe directory
+2026-08-16T21:22:55.7611028Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/ethioagencies/ethioagencies
+2026-08-16T21:22:55.7638059Z Deleting the contents of '/home/runner/work/ethioagencies/ethioagencies'
+2026-08-16T21:22:55.7645248Z ##[group]Initializing the repository
+2026-08-16T21:22:55.7654877Z [command]/usr/bin/git init /home/runner/work/ethioagencies/ethioagencies
+2026-08-16T21:22:55.7746799Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-08-16T21:22:55.7748308Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-08-16T21:22:55.7749741Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-08-16T21:22:55.7750708Z hint: call:
+2026-08-16T21:22:55.7751330Z hint:
+2026-08-16T21:22:55.7752035Z hint: 	git config --global init.defaultBranch <name>
+2026-08-16T21:22:55.7752796Z hint:
+2026-08-16T21:22:55.7753666Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-08-16T21:22:55.7754847Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-08-16T21:22:55.7755840Z hint:
+2026-08-16T21:22:55.7756736Z hint: 	git branch -m <name>
+2026-08-16T21:22:55.7757441Z hint:
+2026-08-16T21:22:55.7758296Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-08-16T21:22:55.7759728Z Initialized empty Git repository in /home/runner/work/ethioagencies/ethioagencies/.git/
+2026-08-16T21:22:55.7770434Z [command]/usr/bin/git remote add origin https://github.com/mjamee21-blip/ethioagencies
+2026-08-16T21:22:55.7826504Z ##[endgroup]
+2026-08-16T21:22:55.7827718Z ##[group]Disabling automatic garbage collection
+2026-08-16T21:22:55.7830449Z [command]/usr/bin/git config --local gc.auto 0
+2026-08-16T21:22:55.7857381Z ##[endgroup]
+2026-08-16T21:22:55.7858763Z ##[group]Setting up auth
+2026-08-16T21:22:55.7862727Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-08-16T21:22:55.7890527Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-08-16T21:22:55.8163038Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-08-16T21:22:55.8189386Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-08-16T21:22:55.8362084Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-08-16T21:22:55.8389483Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-08-16T21:22:55.8549684Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-08-16T21:22:55.8575477Z ##[endgroup]
+2026-08-16T21:22:55.8577024Z ##[group]Fetching the repository
+2026-08-16T21:22:55.8583191Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +744694ceb0c394f0ab0426cae6db738efedb82db:refs/remotes/origin/main
+2026-08-16T21:22:56.2830114Z From https://github.com/mjamee21-blip/ethioagencies
+2026-08-16T21:22:56.2831254Z  * [new ref]         744694ceb0c394f0ab0426cae6db738efedb82db -> origin/main
+2026-08-16T21:22:56.2850207Z ##[endgroup]
+2026-08-16T21:22:56.2851931Z ##[group]Determining the checkout info
+2026-08-16T21:22:56.2853647Z ##[endgroup]
+2026-08-16T21:22:56.2859610Z [command]/usr/bin/git sparse-checkout disable
+2026-08-16T21:22:56.2892614Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-08-16T21:22:56.2917024Z ##[group]Checking out the ref
+2026-08-16T21:22:56.2921523Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-08-16T21:22:56.2991633Z Switched to a new branch 'main'
+2026-08-16T21:22:56.2993739Z branch 'main' set up to track 'origin/main'.
+2026-08-16T21:22:56.2998342Z ##[endgroup]
+2026-08-16T21:22:56.3033120Z [command]/usr/bin/git log -1 --format=%H
+2026-08-16T21:22:56.3051461Z 744694ceb0c394f0ab0426cae6db738efedb82db

@@ -1,0 +1,32 @@
+﻿2026-08-16T21:22:55.0644958Z Current runner version: '2.336.0'
+2026-08-16T21:22:55.0667193Z ##[group]Runner Image Provisioner
+2026-08-16T21:22:55.0668166Z Hosted Compute Agent
+2026-08-16T21:22:55.0668693Z Version: 20260729.566
+2026-08-16T21:22:55.0669247Z Commit: cf7153fe6e25b664e8693c24944bf2b00355d109
+2026-08-16T21:22:55.0669942Z Build Date: 2026-07-29T19:17:02Z
+2026-08-16T21:22:55.0670559Z Worker ID: {79603986-62bb-48ca-94ab-37ca64b72704}
+2026-08-16T21:22:55.0671251Z Azure Region: centralus
+2026-08-16T21:22:55.0671788Z ##[endgroup]
+2026-08-16T21:22:55.0672962Z ##[group]Operating System
+2026-08-16T21:22:55.0673532Z Ubuntu
+2026-08-16T21:22:55.0674054Z 24.04.4
+2026-08-16T21:22:55.0674520Z LTS
+2026-08-16T21:22:55.0675011Z ##[endgroup]
+2026-08-16T21:22:55.0675558Z ##[group]Runner Image
+2026-08-16T21:22:55.0676489Z Image: ubuntu-24.04
+2026-08-16T21:22:55.0677032Z Version: 20260810.271.1
+2026-08-16T21:22:55.0678009Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260810.271/images/ubuntu/Ubuntu2404-Readme.md
+2026-08-16T21:22:55.0679589Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260810.271
+2026-08-16T21:22:55.0680494Z ##[endgroup]
+2026-08-16T21:22:55.0681583Z ##[group]GITHUB_TOKEN Permissions
+2026-08-16T21:22:55.0684137Z Contents: read
+2026-08-16T21:22:55.0684756Z Deployments: write
+2026-08-16T21:22:55.0685348Z Metadata: read
+2026-08-16T21:22:55.0685880Z ##[endgroup]
+2026-08-16T21:22:55.0688264Z Secret source: Actions
+2026-08-16T21:22:55.0689632Z Prepare workflow directory
+2026-08-16T21:22:55.0964371Z Prepare all required actions
+2026-08-16T21:22:55.1007116Z Getting action download info
+2026-08-16T21:22:55.3255401Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-08-16T21:22:55.4407122Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-08-16T21:22:55.6058263Z Complete job name: Deploy to Cloudflare Pages

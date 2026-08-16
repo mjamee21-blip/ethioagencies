@@ -1,0 +1,220 @@
+﻿2026-08-16T21:22:55.0645525Z Current runner version: '2.336.0'
+2026-08-16T21:22:55.0667241Z ##[group]Runner Image Provisioner
+2026-08-16T21:22:55.0668170Z Hosted Compute Agent
+2026-08-16T21:22:55.0668696Z Version: 20260729.566
+2026-08-16T21:22:55.0669251Z Commit: cf7153fe6e25b664e8693c24944bf2b00355d109
+2026-08-16T21:22:55.0669945Z Build Date: 2026-07-29T19:17:02Z
+2026-08-16T21:22:55.0670562Z Worker ID: {79603986-62bb-48ca-94ab-37ca64b72704}
+2026-08-16T21:22:55.0671254Z Azure Region: centralus
+2026-08-16T21:22:55.0671791Z ##[endgroup]
+2026-08-16T21:22:55.0672966Z ##[group]Operating System
+2026-08-16T21:22:55.0673535Z Ubuntu
+2026-08-16T21:22:55.0674058Z 24.04.4
+2026-08-16T21:22:55.0674523Z LTS
+2026-08-16T21:22:55.0675013Z ##[endgroup]
+2026-08-16T21:22:55.0675573Z ##[group]Runner Image
+2026-08-16T21:22:55.0676499Z Image: ubuntu-24.04
+2026-08-16T21:22:55.0677036Z Version: 20260810.271.1
+2026-08-16T21:22:55.0678225Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260810.271/images/ubuntu/Ubuntu2404-Readme.md
+2026-08-16T21:22:55.0679593Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260810.271
+2026-08-16T21:22:55.0680503Z ##[endgroup]
+2026-08-16T21:22:55.0681586Z ##[group]GITHUB_TOKEN Permissions
+2026-08-16T21:22:55.0684151Z Contents: read
+2026-08-16T21:22:55.0684766Z Deployments: write
+2026-08-16T21:22:55.0685355Z Metadata: read
+2026-08-16T21:22:55.0685883Z ##[endgroup]
+2026-08-16T21:22:55.0688284Z Secret source: Actions
+2026-08-16T21:22:55.0689641Z Prepare workflow directory
+2026-08-16T21:22:55.0964398Z Prepare all required actions
+2026-08-16T21:22:55.1007158Z Getting action download info
+2026-08-16T21:22:55.3255433Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-08-16T21:22:55.4407153Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-08-16T21:22:55.6058289Z Complete job name: Deploy to Cloudflare Pages
+2026-08-16T21:22:55.6630846Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-16T21:22:55.6637968Z ##[group]Run actions/checkout@v4
+2026-08-16T21:22:55.6638693Z with:
+2026-08-16T21:22:55.6639152Z   repository: mjamee21-blip/ethioagencies
+2026-08-16T21:22:55.6642738Z   token: ***
+2026-08-16T21:22:55.6643183Z   ssh-strict: true
+2026-08-16T21:22:55.6643641Z   ssh-user: git
+2026-08-16T21:22:55.6644103Z   persist-credentials: true
+2026-08-16T21:22:55.6644573Z   clean: true
+2026-08-16T21:22:55.6645013Z   sparse-checkout-cone-mode: true
+2026-08-16T21:22:55.6645550Z   fetch-depth: 1
+2026-08-16T21:22:55.6646218Z   fetch-tags: false
+2026-08-16T21:22:55.6646731Z   show-progress: true
+2026-08-16T21:22:55.6647185Z   lfs: false
+2026-08-16T21:22:55.6647713Z   submodules: false
+2026-08-16T21:22:55.6648170Z   set-safe-directory: true
+2026-08-16T21:22:55.6648697Z   allow-unsafe-pr-checkout: false
+2026-08-16T21:22:55.6649378Z ##[endgroup]
+2026-08-16T21:22:55.7530165Z Syncing repository: mjamee21-blip/ethioagencies
+2026-08-16T21:22:55.7532255Z ##[group]Getting Git version info
+2026-08-16T21:22:55.7533181Z Working directory is '/home/runner/work/ethioagencies/ethioagencies'
+2026-08-16T21:22:55.7534189Z [command]/usr/bin/git version
+2026-08-16T21:22:55.7579737Z git version 2.54.0
+2026-08-16T21:22:55.7595012Z ##[endgroup]
+2026-08-16T21:22:55.7607630Z Temporarily overriding HOME='/home/runner/work/_temp/9bd25179-f2f6-4b95-bf8d-51d302a2e22b' before making global git config changes
+2026-08-16T21:22:55.7609566Z Adding repository directory to the temporary git global config as a safe directory
+2026-08-16T21:22:55.7611034Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/ethioagencies/ethioagencies
+2026-08-16T21:22:55.7638140Z Deleting the contents of '/home/runner/work/ethioagencies/ethioagencies'
+2026-08-16T21:22:55.7645280Z ##[group]Initializing the repository
+2026-08-16T21:22:55.7654912Z [command]/usr/bin/git init /home/runner/work/ethioagencies/ethioagencies
+2026-08-16T21:22:55.7746845Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-08-16T21:22:55.7748314Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-08-16T21:22:55.7749745Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-08-16T21:22:55.7750712Z hint: call:
+2026-08-16T21:22:55.7751334Z hint:
+2026-08-16T21:22:55.7752041Z hint: 	git config --global init.defaultBranch <name>
+2026-08-16T21:22:55.7752801Z hint:
+2026-08-16T21:22:55.7753672Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-08-16T21:22:55.7754851Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-08-16T21:22:55.7755844Z hint:
+2026-08-16T21:22:55.7756784Z hint: 	git branch -m <name>
+2026-08-16T21:22:55.7757444Z hint:
+2026-08-16T21:22:55.7758301Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-08-16T21:22:55.7759733Z Initialized empty Git repository in /home/runner/work/ethioagencies/ethioagencies/.git/
+2026-08-16T21:22:55.7770474Z [command]/usr/bin/git remote add origin https://github.com/mjamee21-blip/ethioagencies
+2026-08-16T21:22:55.7826538Z ##[endgroup]
+2026-08-16T21:22:55.7827726Z ##[group]Disabling automatic garbage collection
+2026-08-16T21:22:55.7830470Z [command]/usr/bin/git config --local gc.auto 0
+2026-08-16T21:22:55.7857464Z ##[endgroup]
+2026-08-16T21:22:55.7858774Z ##[group]Setting up auth
+2026-08-16T21:22:55.7862743Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-08-16T21:22:55.7890564Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-08-16T21:22:55.8163287Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-08-16T21:22:55.8189418Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-08-16T21:22:55.8362140Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-08-16T21:22:55.8389528Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-08-16T21:22:55.8549727Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-08-16T21:22:55.8575507Z ##[endgroup]
+2026-08-16T21:22:55.8577038Z ##[group]Fetching the repository
+2026-08-16T21:22:55.8583251Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +744694ceb0c394f0ab0426cae6db738efedb82db:refs/remotes/origin/main
+2026-08-16T21:22:56.2830191Z From https://github.com/mjamee21-blip/ethioagencies
+2026-08-16T21:22:56.2831259Z  * [new ref]         744694ceb0c394f0ab0426cae6db738efedb82db -> origin/main
+2026-08-16T21:22:56.2850254Z ##[endgroup]
+2026-08-16T21:22:56.2851952Z ##[group]Determining the checkout info
+2026-08-16T21:22:56.2853665Z ##[endgroup]
+2026-08-16T21:22:56.2859644Z [command]/usr/bin/git sparse-checkout disable
+2026-08-16T21:22:56.2892663Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-08-16T21:22:56.2917082Z ##[group]Checking out the ref
+2026-08-16T21:22:56.2921568Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-08-16T21:22:56.2991677Z Switched to a new branch 'main'
+2026-08-16T21:22:56.2993753Z branch 'main' set up to track 'origin/main'.
+2026-08-16T21:22:56.2998362Z ##[endgroup]
+2026-08-16T21:22:56.3033177Z [command]/usr/bin/git log -1 --format=%H
+2026-08-16T21:22:56.3051553Z 744694ceb0c394f0ab0426cae6db738efedb82db
+2026-08-16T21:22:56.3310264Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-16T21:22:56.3312933Z ##[group]Run actions/setup-node@v4
+2026-08-16T21:22:56.3313508Z with:
+2026-08-16T21:22:56.3313961Z   node-version: 22
+2026-08-16T21:22:56.3314423Z   cache: npm
+2026-08-16T21:22:56.3314914Z   always-auth: false
+2026-08-16T21:22:56.3315423Z   check-latest: false
+2026-08-16T21:22:56.3319382Z   token: ***
+2026-08-16T21:22:56.3319878Z ##[endgroup]
+2026-08-16T21:22:56.4626457Z Found in cache @ /opt/hostedtoolcache/node/22.23.2/x64
+2026-08-16T21:22:56.4628981Z (node:2135) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-08-16T21:22:56.4631617Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-08-16T21:22:56.4633171Z ##[group]Environment details
+2026-08-16T21:22:56.7318259Z node: v22.23.2
+2026-08-16T21:22:56.7319574Z npm: 10.9.8
+2026-08-16T21:22:56.7320426Z yarn: 1.22.22
+2026-08-16T21:22:56.7322222Z ##[endgroup]
+2026-08-16T21:22:56.7381095Z [command]/opt/hostedtoolcache/node/22.23.2/x64/bin/npm config get cache
+2026-08-16T21:22:56.8169443Z /home/runner/.npm
+2026-08-16T21:22:56.9495898Z npm cache is not found
+2026-08-16T21:22:56.9653695Z ##[group]Run npm ci --legacy-peer-deps
+2026-08-16T21:22:56.9655265Z [36;1mnpm ci --legacy-peer-deps[0m
+2026-08-16T21:22:56.9692698Z shell: /usr/bin/bash -e {0}
+2026-08-16T21:22:56.9693991Z ##[endgroup]
+2026-08-16T21:22:58.0664942Z npm warn deprecated sourcemap-codec@1.4.8: Please use @jridgewell/sourcemap-codec instead
+2026-08-16T21:22:58.0847922Z npm warn deprecated rollup-plugin-inject@3.0.2: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-inject.
+2026-08-16T21:22:58.5342984Z npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.hirok.io
+2026-08-16T21:22:58.5914632Z npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.hirok.io
+2026-08-16T21:23:09.8395628Z npm warn deprecated next@14.2.5: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/security-update-2025-12-11 for more details.
+2026-08-16T21:23:10.9012521Z 
+2026-08-16T21:23:10.9014220Z added 187 packages, and audited 188 packages in 14s
+2026-08-16T21:23:10.9014770Z 
+2026-08-16T21:23:10.9015165Z 37 packages are looking for funding
+2026-08-16T21:23:10.9015746Z   run `npm fund` for details
+2026-08-16T21:23:11.0749128Z 
+2026-08-16T21:23:11.0749948Z 12 vulnerabilities (5 moderate, 6 high, 1 critical)
+2026-08-16T21:23:11.0750307Z 
+2026-08-16T21:23:11.0750567Z To address all issues (including breaking changes), run:
+2026-08-16T21:23:11.0751186Z   npm audit fix --force
+2026-08-16T21:23:11.0751397Z 
+2026-08-16T21:23:11.0751591Z Run `npm audit` for details.
+2026-08-16T21:23:11.1143881Z ##[group]Run npm run build
+2026-08-16T21:23:11.1144241Z [36;1mnpm run build[0m
+2026-08-16T21:23:11.1173105Z shell: /usr/bin/bash -e {0}
+2026-08-16T21:23:11.1173510Z ##[endgroup]
+2026-08-16T21:23:11.1988767Z 
+2026-08-16T21:23:11.1989870Z > recruitment-agency-os@0.1.0 build
+2026-08-16T21:23:11.1990362Z > next build
+2026-08-16T21:23:11.1990622Z 
+2026-08-16T21:23:11.5897776Z ⚠ No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+2026-08-16T21:23:11.6747409Z Attention: Next.js now collects completely anonymous telemetry regarding usage.
+2026-08-16T21:23:11.6748500Z This information is used to shape Next.js' roadmap and prioritize features.
+2026-08-16T21:23:11.6749481Z You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+2026-08-16T21:23:11.6750147Z https://nextjs.org/telemetry
+2026-08-16T21:23:11.6750359Z 
+2026-08-16T21:23:11.7204844Z   ▲ Next.js 14.2.5
+2026-08-16T21:23:11.7205664Z 
+2026-08-16T21:23:11.7597592Z    Creating an optimized production build ...
+2026-08-16T21:23:16.7915362Z Failed to compile.
+2026-08-16T21:23:16.7915650Z 
+2026-08-16T21:23:16.7915802Z ./src/app/login/page.tsx
+2026-08-16T21:23:16.7916604Z Error: 
+2026-08-16T21:23:16.7917740Z   [31mx[0m You're importing a component that needs useState. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.
+2026-08-16T21:23:16.7918744Z   [31m|[0m Learn more: https://nextjs.org/docs/getting-started/react-essentials
+2026-08-16T21:23:16.7919289Z   [31m|[0m 
+2026-08-16T21:23:16.7919579Z   [31m|[0m 
+2026-08-16T21:23:16.7920189Z    ,-[[36;1;4m/home/runner/work/ethioagencies/ethioagencies/src/app/login/page.tsx[0m:1:1]
+2026-08-16T21:23:16.7920702Z  [2m1[0m | "client";
+2026-08-16T21:23:16.7921011Z  [2m2[0m | 
+2026-08-16T21:23:16.7921490Z  [2m3[0m | import React, { useState } from "react";
+2026-08-16T21:23:16.7922011Z    : [31;1m                ^^^^^^^^[0m
+2026-08-16T21:23:16.7922516Z  [2m4[0m | import { useRouter } from "next/navigation";
+2026-08-16T21:23:16.7922898Z  [2m5[0m | 
+2026-08-16T21:23:16.7923299Z  [2m6[0m | export default function LoginPage() {
+2026-08-16T21:23:16.7923745Z    `----
+2026-08-16T21:23:16.7923950Z 
+2026-08-16T21:23:16.7924684Z   [31mx[0m You're importing a component that needs useRouter. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.
+2026-08-16T21:23:16.7925625Z   [31m|[0m Learn more: https://nextjs.org/docs/getting-started/react-essentials
+2026-08-16T21:23:16.7926235Z   [31m|[0m 
+2026-08-16T21:23:16.7927279Z   [31m|[0m 
+2026-08-16T21:23:16.7927923Z    ,-[[36;1;4m/home/runner/work/ethioagencies/ethioagencies/src/app/login/page.tsx[0m:1:1]
+2026-08-16T21:23:16.7928539Z  [2m1[0m | "client";
+2026-08-16T21:23:16.7928918Z  [2m2[0m | 
+2026-08-16T21:23:16.7929419Z  [2m3[0m | import React, { useState } from "react";
+2026-08-16T21:23:16.7930027Z  [2m4[0m | import { useRouter } from "next/navigation";
+2026-08-16T21:23:16.7930585Z    : [31;1m         ^^^^^^^^^[0m
+2026-08-16T21:23:16.7931014Z  [2m5[0m | 
+2026-08-16T21:23:16.7931486Z  [2m6[0m | export default function LoginPage() {
+2026-08-16T21:23:16.7932037Z  [2m7[0m |   const router = useRouter();
+2026-08-16T21:23:16.7932523Z    `----
+2026-08-16T21:23:16.7932760Z 
+2026-08-16T21:23:16.7933045Z Import trace for requested module:
+2026-08-16T21:23:16.7933515Z ./src/app/login/page.tsx
+2026-08-16T21:23:16.7933827Z 
+2026-08-16T21:23:16.7992430Z 
+2026-08-16T21:23:16.7995573Z > Build failed because of webpack errors
+2026-08-16T21:23:16.8115223Z ##[error]Process completed with exit code 1.
+2026-08-16T21:23:16.8341425Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-16T21:23:16.8342916Z Post job cleanup.
+2026-08-16T21:23:16.9082485Z [command]/usr/bin/git version
+2026-08-16T21:23:16.9118275Z git version 2.54.0
+2026-08-16T21:23:16.9153433Z Temporarily overriding HOME='/home/runner/work/_temp/652080d8-4f17-42d1-9066-81d1a6b41bfa' before making global git config changes
+2026-08-16T21:23:16.9154681Z Adding repository directory to the temporary git global config as a safe directory
+2026-08-16T21:23:16.9158946Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/ethioagencies/ethioagencies
+2026-08-16T21:23:16.9192295Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-08-16T21:23:16.9222035Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-08-16T21:23:16.9404466Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-08-16T21:23:16.9422299Z http.https://github.com/.extraheader
+2026-08-16T21:23:16.9431510Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-08-16T21:23:16.9456508Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-08-16T21:23:16.9649789Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-08-16T21:23:16.9691001Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-08-16T21:23:16.9988296Z Cleaning up orphan processes
+2026-08-16T21:23:17.0230407Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

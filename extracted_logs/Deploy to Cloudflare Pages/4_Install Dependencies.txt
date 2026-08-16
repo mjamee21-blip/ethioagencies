@@ -1,0 +1,21 @@
+﻿2026-08-16T21:22:56.9653659Z ##[group]Run npm ci --legacy-peer-deps
+2026-08-16T21:22:56.9655261Z [36;1mnpm ci --legacy-peer-deps[0m
+2026-08-16T21:22:56.9692674Z shell: /usr/bin/bash -e {0}
+2026-08-16T21:22:56.9693986Z ##[endgroup]
+2026-08-16T21:22:58.0664874Z npm warn deprecated sourcemap-codec@1.4.8: Please use @jridgewell/sourcemap-codec instead
+2026-08-16T21:22:58.0847867Z npm warn deprecated rollup-plugin-inject@3.0.2: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-inject.
+2026-08-16T21:22:58.5342898Z npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.hirok.io
+2026-08-16T21:22:58.5914562Z npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.hirok.io
+2026-08-16T21:23:09.8395499Z npm warn deprecated next@14.2.5: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/security-update-2025-12-11 for more details.
+2026-08-16T21:23:10.9012426Z 
+2026-08-16T21:23:10.9013836Z added 187 packages, and audited 188 packages in 14s
+2026-08-16T21:23:10.9014763Z 
+2026-08-16T21:23:10.9015158Z 37 packages are looking for funding
+2026-08-16T21:23:10.9015738Z   run `npm fund` for details
+2026-08-16T21:23:11.0749015Z 
+2026-08-16T21:23:11.0749937Z 12 vulnerabilities (5 moderate, 6 high, 1 critical)
+2026-08-16T21:23:11.0750302Z 
+2026-08-16T21:23:11.0750562Z To address all issues (including breaking changes), run:
+2026-08-16T21:23:11.0751172Z   npm audit fix --force
+2026-08-16T21:23:11.0751392Z 
+2026-08-16T21:23:11.0751586Z Run `npm audit` for details.
