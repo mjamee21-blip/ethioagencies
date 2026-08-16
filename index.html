@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruitment Agency OS — The Operating System for Ethiopian & Gulf Recruitment Agencies</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            900: '#14532d',
+                        },
+                        gulf: {
+                            50: '#eef2ff',
+                            600: '#4f46e5',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-emerald-400 flex items-center justify-center shadow-lg shadow-brand-500/30">
+                    <i class="fa-solid fa-passport text-white text-lg"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-black tracking-tight text-white">Recruitment OS</span>
+                    <span class="block text-[10px] uppercase tracking-widest text-brand-400 font-semibold">Ethiopia & Gulf Edition</span>
+                </div>
+            </div>
+
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                <a href="#features" class="hover:text-white transition-colors">Features</a>
+                <a href="#workflow" class="hover:text-white transition-colors">Workflow</a>
+                <a href="#ocr" class="hover:text-white transition-colors">Passport OCR</a>
+                <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
+            </nav>
+
+            <div class="flex items-center space-x-4">
+                <button onclick="openDemoModal()" class="hidden sm:inline-flex items-center space-x-2 text-sm font-medium text-slate-300 hover:text-white px-4 py-2 rounded-lg border border-slate-700 hover:border-slate-500 transition-all">
+                    <i class="fa-solid fa-play text-brand-400"></i>
+                    <span>Live Demo</span>
+                </button>
+                <a href="#pricing" class="bg-brand-600 hover:bg-brand-500 text-white text-sm font-semibold px-5 py-2.5 rounded-lg shadow-lg shadow-brand-600/30 transition-all transform hover:-translate-y-0.5">
+                    Get Started Free
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-900/20 via-slate-950 to-slate-950 pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-4xl mx-auto">
+                <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-semibold uppercase tracking-wider mb-6">
+                    <span class="w-2 h-2 rounded-full bg-brand-400 animate-pulse"></span>
+                    <span>MoL Ethiopia & Gulf Embassy Compliant</span>
+                </div>
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+                    The Modern Operating System for <span class="bg-gradient-to-r from-brand-400 via-emerald-300 to-teal-400 bg-clip-text text-transparent">Ethiopian Recruitment Agencies</span>
+                </h1>
+                <p class="text-lg sm:text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+                    Automate worker registrations, instant passport OCR, Gulf employer matching, pipeline Kanban, and visa-to-flight tracking in one unified SaaS platform.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#pricing" class="w-full sm:w-auto bg-brand-600 hover:bg-brand-500 text-white font-bold text-base px-8 py-4 rounded-xl shadow-xl shadow-brand-600/30 transition-all flex items-center justify-center space-x-3">
+                        <span>Start 14-Day Free Trial</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <button onclick="openDemoModal()" class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-semibold text-base px-8 py-4 rounded-xl transition-all flex items-center justify-center space-x-3">
+                        <i class="fa-solid fa-play text-brand-400"></i>
+                        <span>Explore Interactive Demo</span>
+                    </button>
+                </div>
+
+                <!-- Trust Badges -->
+                <div class="mt-16 pt-10 border-t border-slate-800/80 grid grid-cols-2 md:grid-cols-4 gap-6 text-slate-400 text-sm font-medium">
+                    <div class="flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-bolt text-amber-400"></i>
+                        <span>Instant Passport OCR</span>
+                    </div>
+                    <div class="flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-shield-halved text-brand-400"></i>
+                        <span>MoL & Embassy Ready</span>
+                    </div>
+                    <div class="flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-plane-departure text-indigo-400"></i>
+                        <span>Saudi & Gulf Logistics</span>
+                    </div>
+                    <div class="flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-users text-teal-400"></i>
+                        <span>Unlimited Candidates</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Dashboard Graphic -->
+            <div class="mt-16 relative max-w-5xl mx-auto rounded-2xl border border-slate-800 bg-slate-900/60 p-3 shadow-2xl backdrop-blur-xl">
+                <div class="absolute -top-3 left-6 flex space-x-2">
+                    <div class="w-3 h-3 rounded-full bg-rose-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+                </div>
+                <div class="bg-slate-950 rounded-xl p-6 border border-slate-800/60">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 pb-4 border-b border-slate-800">
+                        <div>
+                            <h2 class="text-lg font-bold text-white">Agency Command Center</h2>
+                            <p class="text-xs text-slate-400">Active placements for Riyadh, Jeddah, Dubai & Doha</p>
+                        </div>
+                        <div class="mt-3 md:mt-0 flex space-x-3">
+                            <span class="px-3 py-1 bg-brand-500/10 text-brand-400 text-xs font-semibold rounded-lg border border-brand-500/20">Active: 1,420 Workers</span>
+                            <span class="px-3 py-1 bg-indigo-500/10 text-indigo-400 text-xs font-semibold rounded-lg border border-indigo-500/20">Visas Processed: 384</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
+                            <div class="text-xs text-slate-400">Medical & Police Cleared</div>
+                            <div class="text-2xl font-black text-white mt-1">892 <span class="text-xs text-brand-400 font-normal">+18 today</span></div>
+                        </div>
+                        <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
+                            <div class="text-xs text-slate-400">Embassy Stamping Queue</div>
+                            <div class="text-2xl font-black text-amber-400 mt-1">214 <span class="text-xs text-slate-400 font-normal">Pending</span></div>
+                        </div>
+                        <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
+                            <div class="text-xs text-slate-400">Confirmed Flights (Ethiopian / Saudia)</div>
+                            <div class="text-2xl font-black text-emerald-400 mt-1">68 <span class="text-xs text-slate-400 font-normal">This week</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Features Section -->
+    <section id="features" class="py-24 bg-slate-900/40 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-brand-400 mb-3">Comprehensive Module Suite</h2>
+                <h3 class="text-3xl sm:text-4xl font-black text-white tracking-tight">Everything Your Agency Needs to Scale from Addis Ababa to the Gulf</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl hover:border-brand-500/50 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 text-brand-400 flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-id-card"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-3">Worker & Candidate Management</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Comprehensive bio-data profiles, contact details, guarantor tracking, medical fitness records, training certificates, and skill tags.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div id="ocr" class="bg-slate-900 border border-slate-800 p-8 rounded-2xl hover:border-brand-500/50 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-camera-rotate"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-3">Instant Passport OCR</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Snap a photo or upload scanned Ethiopian passports. MRZ parser auto-extracts full name, passport number, birth date, and expiry in seconds.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl hover:border-brand-500/50 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-handshake"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-3">Candidate & Employer Matching</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Match candidate experience (housemaid, nurse, driver, hospitality) with verified Gulf employer requirements and salary grades.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div id="workflow" class="bg-slate-900 border border-slate-800 p-8 rounded-2xl hover:border-brand-500/50 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/20 text-teal-400 flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-columns"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-3">Pipeline Kanban Board</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Visual drag-and-drop workflow: Registration → Medical Check → Training Center → Embassy Stamping → Visa Issued → Flight Booked.
+                    </p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl hover:border-brand-500/50 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-plane"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-3">Visa & Travel Tracking</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Track Saudi, UAE, Qatar & Kuwait visa processing statuses, medical fitness certificates, insurance, and flight itinerary management.
+                    </p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl hover:border-brand-500/50 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-credit-card"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-3">SaaS Billing & Subscriptions</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Tiered agency pricing plans, automated invoice generation, payment tracking, and usage limits configured for growing recruitment businesses.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-24 bg-slate-950 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-brand-400 mb-3">Transparent Pricing</h2>
+                <h3 class="text-3xl sm:text-4xl font-black text-white tracking-tight">Choose the Plan That Fits Your Agency Size</h3>
+                <p class="text-slate-400 text-sm mt-3">All plans include passport OCR, candidate database, and Gulf embassy compliance workflows.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Starter Plan -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="text-sm font-semibold text-brand-400 uppercase tracking-wider mb-2">Starter Agency</div>
+                        <div class="text-3xl font-black text-white mb-1">$49 <span class="text-sm font-normal text-slate-400">/ month</span></div>
+                        <p class="text-slate-400 text-xs mb-6">Ideal for small agencies starting out in Addis Ababa.</p>
+                        <ul class="space-y-3 text-sm text-slate-300 mb-8">
+                            <li class="flex items-center space-x-3"><i class="fa-solid fa-check text-brand-400"></i><span>Up to 250 active candidates</span></li>
+                            <li class="flex items-center space-x-3"><i class="fa-solid fa-check text-brand-400"></i><span>Basic Passport OCR (50/mo)</span></li>
+                            <li class="flex items-center space-x-3"><i class="fa-solid fa-check text-brand-400"></i><span>Pipeline Kanban board</span></li>
+                            <li class="flex items-center space-x-3"><i class="fa-solid fa-check text-brand-400"></i><span>Email support</span></li>
+                        </ul>
+                    </div>
+                    <button onclick="openDemoModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-semibold py-3 rounded-xl transition-all">Start Starter Trial</button>
+                </div>
+
+                <!-- Growth Plan (Featured) -->
+                <div class="bg-gradient-to-b from-brand-950/40 to-slate-900 border-2 border-brand-500 rounded-2xl p-8 flex flex-col justify-between relative shadow-2xl shadow-brand-500/10">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-600 text-white text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full">Most Popular</div>
+                    <div>
+                        <div class="text-sm font-semibold text-brand-400 uppercase tracking-wider mb-2">Growth Agency</div>
+                        <div class="text-3xl font-black text-white mb-1">$149 <span class="text-sm font-normal text-slate-400">/ month</span></div>
+                        <p class="text-slate-400 text-xs mb-6">For established agencies placing workers across the Gulf.</p>
+                        <ul class="space-y-3 text-sm text-slate-300 mb-8">
+                            <li class="flex items-center space-x-3"><i class="fa-solid fa-check text-brand-400"></i><span>Up to 2,000 active candidates</span></li>
+                            <li class="flex items-center space-x-3"><i class="fa-solid fa-check text-brand-400"></i><span>Unlimited High-Speed Passport OCR</span></li>
+                            <li class="flex items-center space-x-3"><i class="fa-solid fa-check text-brand-400"></i><span>Advanced Gulf Visa & Flight Tracking</span></li>
+                            <li class="flex items-center space-x-3"><i class="fa-solid fa-check text-brand-400"></i><span>Multi-agent staff accounts (Up to 10)</span></li>
+                            <li class="flex items-center space-x-3"><i class="fa-solid fa-check text-brand-400"></i><span>Priority WhatsApp & Telegram Support</span></li>
+                        </ul>
+                    </div>
+                    <button onclick="openDemoModal()" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 rounded-xl shadow-lg shadow-brand-600/30 transition-all">Start Growth Trial</button>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="text-sm font-semibold text-brand-400 uppercase tracking-wider mb-2">Enterprise</div>
+                        <div class="text-3xl font-black text-white mb-1">$399 <span class="text-sm font-normal text-slate-400">/ month</span></div>
+                        <p class="text-slate-400 text-xs mb-6">For large licensed employment agencies with multiple branches.</p>
+                        <ul class="space-y-3 text-sm text-slate-300 mb-8">
+                            <li class="flex items-center space-x-3"><i class="fa-solid fa-check text-brand-400"></i><span>Unlimited active candidates</span></li>
+                            <li class="flex items-center space-x-3"><i class="fa-solid fa-check text-brand-400"></i><span>Unlimited Passport OCR & AI Matching</span></li>
+                            <li class="flex items-center space-x-3"><i class="fa-solid fa-check text-brand-400"></i><span>Custom MoL API & Embassy integrations</span></li>
+                            <li class="flex items-center space-x-3"><i class="fa-solid fa-check text-brand-400"></i><span>Dedicated account manager</span></li>
+                        </ul>
+                    </div>
+                    <button onclick="openDemoModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-semibold py-3 rounded-xl transition-all">Contact Sales</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo Modal -->
+    <div id="demoModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-3xl p-6 relative shadow-2xl">
+            <button onclick="closeDemoModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center text-white">
+                    <i class="fa-solid fa-rocket"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-white">Recruitment Agency OS — Live Demo Sandbox</h3>
+                    <p class="text-xs text-slate-400">Test drive the candidate pipeline and passport OCR scanner</p>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                    <div class="text-xs font-semibold text-brand-400 mb-2">Simulated Passport OCR Scan</div>
+                    <div class="flex flex-col sm:flex-row gap-3 items-center">
+                        <div class="w-full sm:w-1/2 bg-slate-900 p-3 rounded-lg border border-slate-800 text-xs text-slate-300">
+                            <div class="font-mono text-emerald-400">EP9823411 — ETHIOPIA</div>
+                            <div>Name: Almaz Kebede Tadesse</div>
+                            <div>DOB: 14 Oct 1998 | Sex: F</div>
+                            <div>Target: Riyadh, Saudi Arabia</div>
+                        </div>
+                        <div class="w-full sm:w-1/2 flex flex-col justify-center">
+                            <button onclick="simulateOCR()" class="bg-brand-600 hover:bg-brand-500 text-white text-xs font-bold py-2.5 px-4 rounded-lg transition-all">
+                                <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Run OCR Extraction
+                            </button>
+                            <div id="ocrResult" class="text-xs text-slate-400 mt-2 italic">Click button to simulate passport scanning...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                    <div class="text-xs font-semibold text-indigo-400 mb-2">Kanban Pipeline Quick Status</div>
+                    <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                        <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                            <div class="text-slate-400">Medical</div>
+                            <div class="font-bold text-white">45 Candidates</div>
+                        </div>
+                        <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                            <div class="text-slate-400">Embassy</div>
+                            <div class="font-bold text-amber-400">18 Stamping</div>
+                        </div>
+                        <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                            <div class="text-slate-400">Flight</div>
+                            <div class="font-bold text-emerald-400">12 Booked</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                <button onclick="closeDemoModal()" class="bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold px-6 py-2 rounded-lg">Close Demo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-12 text-slate-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white">
+                    <i class="fa-solid fa-passport"></i>
+                </div>
+                <span class="font-bold text-white">Recruitment Agency OS</span>
+            </div>
+            <div class="text-xs text-center md:text-left">
+                &copy; 2026 Recruitment Agency OS. Built for Ethiopian & Gulf Recruitment Agencies. All rights reserved.
+            </div>
+            <div class="flex space-x-6 text-xs">
+                <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                <a href="#" class="hover:text-white transition-colors">MoL Compliance</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function openDemoModal() {
+            document.getElementById('demoModal').classList.remove('hidden');
+        }
+        function closeDemoModal() {
+            document.getElementById('demoModal').classList.add('hidden');
+        }
+        function simulateOCR() {
+            const res = document.getElementById('ocrResult');
+            res.innerHTML = '<span class="text-emerald-400 font-bold"><i class="fa-solid fa-circle-check"></i> OCR Successful: MRZ Verified, Data Saved to Candidate DB!</span>';
+        }
+    </script>
+</body>
+</html>
