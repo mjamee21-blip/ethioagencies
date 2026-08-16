@@ -1,0 +1,326 @@
+﻿2026-08-16T21:50:38.3258817Z Current runner version: '2.336.0'
+2026-08-16T21:50:38.3282116Z ##[group]Runner Image Provisioner
+2026-08-16T21:50:38.3283122Z Hosted Compute Agent
+2026-08-16T21:50:38.3283729Z Version: 20260729.566
+2026-08-16T21:50:38.3284704Z Commit: cf7153fe6e25b664e8693c24944bf2b00355d109
+2026-08-16T21:50:38.3285577Z Build Date: 2026-07-29T19:17:02Z
+2026-08-16T21:50:38.3286282Z Worker ID: {3d26d9eb-a09f-45eb-bdb8-d22ead64623c}
+2026-08-16T21:50:38.3287089Z Azure Region: eastus
+2026-08-16T21:50:38.3287679Z ##[endgroup]
+2026-08-16T21:50:38.3289510Z ##[group]Operating System
+2026-08-16T21:50:38.3290252Z Ubuntu
+2026-08-16T21:50:38.3290773Z 24.04.4
+2026-08-16T21:50:38.3291369Z LTS
+2026-08-16T21:50:38.3291892Z ##[endgroup]
+2026-08-16T21:50:38.3292447Z ##[group]Runner Image
+2026-08-16T21:50:38.3293092Z Image: ubuntu-24.04
+2026-08-16T21:50:38.3293658Z Version: 20260810.271.1
+2026-08-16T21:50:38.3295262Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260810.271/images/ubuntu/Ubuntu2404-Readme.md
+2026-08-16T21:50:38.3296924Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260810.271
+2026-08-16T21:50:38.3298337Z ##[endgroup]
+2026-08-16T21:50:38.3299624Z ##[group]GITHUB_TOKEN Permissions
+2026-08-16T21:50:38.3301890Z Contents: read
+2026-08-16T21:50:38.3302507Z Deployments: write
+2026-08-16T21:50:38.3303060Z Metadata: read
+2026-08-16T21:50:38.3303688Z ##[endgroup]
+2026-08-16T21:50:38.3306177Z Secret source: Actions
+2026-08-16T21:50:38.3307682Z Prepare workflow directory
+2026-08-16T21:50:38.3630932Z Prepare all required actions
+2026-08-16T21:50:38.3678748Z Getting action download info
+2026-08-16T21:50:38.5654968Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-08-16T21:50:38.7128398Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-08-16T21:50:38.9054576Z Complete job name: Deploy to Cloudflare Pages
+2026-08-16T21:50:38.9812020Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-16T21:50:38.9821285Z ##[group]Run actions/checkout@v4
+2026-08-16T21:50:38.9822047Z with:
+2026-08-16T21:50:38.9822528Z   repository: mjamee21-blip/ethioagencies
+2026-08-16T21:50:38.9826702Z   token: ***
+2026-08-16T21:50:38.9827153Z   ssh-strict: true
+2026-08-16T21:50:38.9827595Z   ssh-user: git
+2026-08-16T21:50:38.9828041Z   persist-credentials: true
+2026-08-16T21:50:38.9828533Z   clean: true
+2026-08-16T21:50:38.9829017Z   sparse-checkout-cone-mode: true
+2026-08-16T21:50:38.9829545Z   fetch-depth: 1
+2026-08-16T21:50:38.9829984Z   fetch-tags: false
+2026-08-16T21:50:38.9830429Z   show-progress: true
+2026-08-16T21:50:38.9830875Z   lfs: false
+2026-08-16T21:50:38.9831320Z   submodules: false
+2026-08-16T21:50:38.9831778Z   set-safe-directory: true
+2026-08-16T21:50:38.9832294Z   allow-unsafe-pr-checkout: false
+2026-08-16T21:50:38.9833084Z ##[endgroup]
+2026-08-16T21:50:39.0866146Z Syncing repository: mjamee21-blip/ethioagencies
+2026-08-16T21:50:39.0868301Z ##[group]Getting Git version info
+2026-08-16T21:50:39.0869580Z Working directory is '/home/runner/work/ethioagencies/ethioagencies'
+2026-08-16T21:50:39.0871299Z [command]/usr/bin/git version
+2026-08-16T21:50:39.0976916Z git version 2.54.0
+2026-08-16T21:50:39.1032924Z ##[endgroup]
+2026-08-16T21:50:39.1048712Z Temporarily overriding HOME='/home/runner/work/_temp/f50bc86e-2342-4824-b3a8-7d2cb1d8681d' before making global git config changes
+2026-08-16T21:50:39.1051148Z Adding repository directory to the temporary git global config as a safe directory
+2026-08-16T21:50:39.1053839Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/ethioagencies/ethioagencies
+2026-08-16T21:50:39.1108675Z Deleting the contents of '/home/runner/work/ethioagencies/ethioagencies'
+2026-08-16T21:50:39.1112540Z ##[group]Initializing the repository
+2026-08-16T21:50:39.1117887Z [command]/usr/bin/git init /home/runner/work/ethioagencies/ethioagencies
+2026-08-16T21:50:39.1232734Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-08-16T21:50:39.1234875Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-08-16T21:50:39.1236888Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-08-16T21:50:39.1238340Z hint: call:
+2026-08-16T21:50:39.1239331Z hint:
+2026-08-16T21:50:39.1240483Z hint: 	git config --global init.defaultBranch <name>
+2026-08-16T21:50:39.1241700Z hint:
+2026-08-16T21:50:39.1242958Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-08-16T21:50:39.1245060Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-08-16T21:50:39.1246533Z hint:
+2026-08-16T21:50:39.1247406Z hint: 	git branch -m <name>
+2026-08-16T21:50:39.1248372Z hint:
+2026-08-16T21:50:39.1249596Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-08-16T21:50:39.1251594Z Initialized empty Git repository in /home/runner/work/ethioagencies/ethioagencies/.git/
+2026-08-16T21:50:39.1255344Z [command]/usr/bin/git remote add origin https://github.com/mjamee21-blip/ethioagencies
+2026-08-16T21:50:39.1303357Z ##[endgroup]
+2026-08-16T21:50:39.1304799Z ##[group]Disabling automatic garbage collection
+2026-08-16T21:50:39.1308103Z [command]/usr/bin/git config --local gc.auto 0
+2026-08-16T21:50:39.1346722Z ##[endgroup]
+2026-08-16T21:50:39.1348170Z ##[group]Setting up auth
+2026-08-16T21:50:39.1355499Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-08-16T21:50:39.1395971Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-08-16T21:50:39.1791339Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-08-16T21:50:39.1827809Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-08-16T21:50:39.2053775Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-08-16T21:50:39.2091102Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-08-16T21:50:39.2317679Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-08-16T21:50:39.2356922Z ##[endgroup]
+2026-08-16T21:50:39.2357859Z ##[group]Fetching the repository
+2026-08-16T21:50:39.2369332Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +4088e14f4c841247e5b7ac78adaab0189c07e4d6:refs/remotes/origin/main
+2026-08-16T21:50:39.5021250Z From https://github.com/mjamee21-blip/ethioagencies
+2026-08-16T21:50:39.5023469Z  * [new ref]         4088e14f4c841247e5b7ac78adaab0189c07e4d6 -> origin/main
+2026-08-16T21:50:39.5063986Z ##[endgroup]
+2026-08-16T21:50:39.5065947Z ##[group]Determining the checkout info
+2026-08-16T21:50:39.5068023Z ##[endgroup]
+2026-08-16T21:50:39.5073694Z [command]/usr/bin/git sparse-checkout disable
+2026-08-16T21:50:39.5125816Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-08-16T21:50:39.5157284Z ##[group]Checking out the ref
+2026-08-16T21:50:39.5161964Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-08-16T21:50:39.5287893Z Switched to a new branch 'main'
+2026-08-16T21:50:39.5291848Z branch 'main' set up to track 'origin/main'.
+2026-08-16T21:50:39.5296846Z ##[endgroup]
+2026-08-16T21:50:39.5340412Z [command]/usr/bin/git log -1 --format=%H
+2026-08-16T21:50:39.5366838Z 4088e14f4c841247e5b7ac78adaab0189c07e4d6
+2026-08-16T21:50:39.5658177Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-16T21:50:39.5661005Z ##[group]Run actions/setup-node@v4
+2026-08-16T21:50:39.5661517Z with:
+2026-08-16T21:50:39.5661911Z   node-version: 22
+2026-08-16T21:50:39.5662334Z   cache: npm
+2026-08-16T21:50:39.5662738Z   always-auth: false
+2026-08-16T21:50:39.5663181Z   check-latest: false
+2026-08-16T21:50:39.5666971Z   token: ***
+2026-08-16T21:50:39.5667391Z ##[endgroup]
+2026-08-16T21:50:39.7102131Z Found in cache @ /opt/hostedtoolcache/node/22.23.2/x64
+2026-08-16T21:50:39.7106042Z (node:2189) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-08-16T21:50:39.7107978Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-08-16T21:50:39.7110080Z ##[group]Environment details
+2026-08-16T21:50:40.1371061Z node: v22.23.2
+2026-08-16T21:50:40.1371594Z npm: 10.9.8
+2026-08-16T21:50:40.1371950Z yarn: 1.22.22
+2026-08-16T21:50:40.1372806Z ##[endgroup]
+2026-08-16T21:50:40.1431298Z [command]/opt/hostedtoolcache/node/22.23.2/x64/bin/npm config get cache
+2026-08-16T21:50:40.2582923Z /home/runner/.npm
+2026-08-16T21:50:40.3379317Z npm cache is not found
+2026-08-16T21:50:40.3508598Z ##[group]Run npm ci --legacy-peer-deps
+2026-08-16T21:50:40.3509106Z [36;1mnpm ci --legacy-peer-deps[0m
+2026-08-16T21:50:40.3559308Z shell: /usr/bin/bash -e {0}
+2026-08-16T21:50:40.3559726Z ##[endgroup]
+2026-08-16T21:50:41.8007864Z npm warn deprecated rollup-plugin-inject@3.0.2: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-inject.
+2026-08-16T21:50:41.9119618Z npm warn deprecated sourcemap-codec@1.4.8: Please use @jridgewell/sourcemap-codec instead
+2026-08-16T21:50:42.1969690Z npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.hirok.io
+2026-08-16T21:50:42.2809085Z npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.hirok.io
+2026-08-16T21:50:56.2461190Z npm warn deprecated next@14.2.5: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/security-update-2025-12-11 for more details.
+2026-08-16T21:50:56.5447681Z 
+2026-08-16T21:50:56.5449097Z added 187 packages, and audited 188 packages in 16s
+2026-08-16T21:50:56.5449732Z 
+2026-08-16T21:50:56.5450086Z 37 packages are looking for funding
+2026-08-16T21:50:56.5450679Z   run `npm fund` for details
+2026-08-16T21:50:56.7349708Z 
+2026-08-16T21:50:56.7350625Z 12 vulnerabilities (5 moderate, 6 high, 1 critical)
+2026-08-16T21:50:56.7351254Z 
+2026-08-16T21:50:56.7351735Z To address all issues (including breaking changes), run:
+2026-08-16T21:50:56.7352513Z   npm audit fix --force
+2026-08-16T21:50:56.7352873Z 
+2026-08-16T21:50:56.7353163Z Run `npm audit` for details.
+2026-08-16T21:50:56.8041647Z ##[group]Run npm run build
+2026-08-16T21:50:56.8041995Z [36;1mnpm run build[0m
+2026-08-16T21:50:56.8082107Z shell: /usr/bin/bash -e {0}
+2026-08-16T21:50:56.8082485Z ##[endgroup]
+2026-08-16T21:50:56.9069237Z 
+2026-08-16T21:50:56.9070162Z > recruitment-agency-os@0.1.0 build
+2026-08-16T21:50:56.9070934Z > next build
+2026-08-16T21:50:56.9071169Z 
+2026-08-16T21:50:57.4155831Z ⚠ No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+2026-08-16T21:50:57.4312395Z Attention: Next.js now collects completely anonymous telemetry regarding usage.
+2026-08-16T21:50:57.4313912Z This information is used to shape Next.js' roadmap and prioritize features.
+2026-08-16T21:50:57.4316068Z You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+2026-08-16T21:50:57.4317058Z https://nextjs.org/telemetry
+2026-08-16T21:50:57.4334979Z 
+2026-08-16T21:50:57.4943664Z   ▲ Next.js 14.2.5
+2026-08-16T21:50:57.4945387Z 
+2026-08-16T21:50:57.5362487Z    Creating an optimized production build ...
+2026-08-16T21:51:06.0196123Z  ⚠ Compiled with warnings
+2026-08-16T21:51:06.0196874Z 
+2026-08-16T21:51:06.0197822Z ./node_modules/bcryptjs/dist/bcrypt.js
+2026-08-16T21:51:06.0199280Z A Node.js API is used (process.nextTick at line: 351) which is not supported in the Edge Runtime.
+2026-08-16T21:51:06.0200684Z Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+2026-08-16T21:51:06.0201524Z 
+2026-08-16T21:51:06.0202006Z Import trace for requested module:
+2026-08-16T21:51:06.0202842Z ./node_modules/bcryptjs/dist/bcrypt.js
+2026-08-16T21:51:06.0203617Z ./src/lib/auth.ts
+2026-08-16T21:51:06.0204059Z 
+2026-08-16T21:51:06.0204851Z ./node_modules/bcryptjs/dist/bcrypt.js
+2026-08-16T21:51:06.0206296Z A Node.js API is used (setImmediate at line: 352) which is not supported in the Edge Runtime.
+2026-08-16T21:51:06.0207767Z Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+2026-08-16T21:51:06.0208603Z 
+2026-08-16T21:51:06.0209212Z Import trace for requested module:
+2026-08-16T21:51:06.0210154Z ./node_modules/bcryptjs/dist/bcrypt.js
+2026-08-16T21:51:06.0210969Z ./src/lib/auth.ts
+2026-08-16T21:51:06.0211425Z 
+2026-08-16T21:51:06.0211954Z ./node_modules/bcryptjs/dist/bcrypt.js
+2026-08-16T21:51:06.0213274Z A Node.js API is used (setImmediate at line: 352) which is not supported in the Edge Runtime.
+2026-08-16T21:51:06.0214904Z Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+2026-08-16T21:51:06.0215620Z 
+2026-08-16T21:51:06.0216067Z Import trace for requested module:
+2026-08-16T21:51:06.0216840Z ./node_modules/bcryptjs/dist/bcrypt.js
+2026-08-16T21:51:06.0217591Z ./src/lib/auth.ts
+2026-08-16T21:51:06.0218073Z 
+2026-08-16T21:51:06.0218586Z ./node_modules/bcryptjs/dist/bcrypt.js
+2026-08-16T21:51:06.0219875Z A Node.js API is used (process.nextTick at line: 352) which is not supported in the Edge Runtime.
+2026-08-16T21:51:06.0221290Z Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+2026-08-16T21:51:06.0221990Z 
+2026-08-16T21:51:06.0222458Z Import trace for requested module:
+2026-08-16T21:51:06.0223319Z ./node_modules/bcryptjs/dist/bcrypt.js
+2026-08-16T21:51:06.0224068Z ./src/lib/auth.ts
+2026-08-16T21:51:06.0224720Z 
+2026-08-16T21:51:06.0225090Z ./src/lib/auth.ts
+2026-08-16T21:51:06.0226107Z A Node.js module is loaded ('crypto' at line 2) which is not supported in the Edge Runtime.
+2026-08-16T21:51:06.0227465Z Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+2026-08-16T21:51:06.0228213Z 
+2026-08-16T21:51:06.0228662Z Import trace for requested module:
+2026-08-16T21:51:06.0229337Z ./src/lib/auth.ts
+2026-08-16T21:51:06.0229740Z 
+2026-08-16T21:51:11.6548378Z  ✓ Compiled successfully
+2026-08-16T21:51:11.6557670Z    Linting and checking validity of types ...
+2026-08-16T21:51:16.3034675Z    Collecting page data ...
+2026-08-16T21:51:17.6418552Z    Generating static pages (0/42) ...
+2026-08-16T21:51:17.8968128Z Webhook Stub Error: q [Error]: Dynamic server usage: Route /api/billing/webhook-stub couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+2026-08-16T21:51:17.8996414Z     at W (/home/runner/work/ethioagencies/ethioagencies/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:21106)
+2026-08-16T21:51:17.9029871Z     at Object.get (/home/runner/work/ethioagencies/ethioagencies/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:28459)
+2026-08-16T21:51:17.9059611Z     at c (/home/runner/work/ethioagencies/ethioagencies/.next/server/app/api/billing/webhook-stub/route.js:1:821)
+2026-08-16T21:51:17.9071731Z     at /home/runner/work/ethioagencies/ethioagencies/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:36264
+2026-08-16T21:51:17.9085815Z     at /home/runner/work/ethioagencies/ethioagencies/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+2026-08-16T21:51:17.9106378Z     at NoopContextManager.with (/home/runner/work/ethioagencies/ethioagencies/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+2026-08-16T21:51:17.9109418Z     at ContextAPI.with (/home/runner/work/ethioagencies/ethioagencies/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+2026-08-16T21:51:17.9113573Z     at NoopTracer.startActiveSpan (/home/runner/work/ethioagencies/ethioagencies/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+2026-08-16T21:51:17.9118664Z     at ProxyTracer.startActiveSpan (/home/runner/work/ethioagencies/ethioagencies/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+2026-08-16T21:51:17.9119836Z     at /home/runner/work/ethioagencies/ethioagencies/node_modules/next/dist/server/lib/trace/tracer.js:122:103 {
+2026-08-16T21:51:17.9122402Z   description: "Route /api/billing/webhook-stub couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+2026-08-16T21:51:17.9124211Z   digest: 'DYNAMIC_SERVER_USAGE'
+2026-08-16T21:51:17.9125144Z }
+2026-08-16T21:51:17.9889365Z    Generating static pages (10/42) 
+2026-08-16T21:51:18.0759032Z    Generating static pages (20/42) 
+2026-08-16T21:51:18.2929421Z    Generating static pages (31/42) 
+2026-08-16T21:51:18.4834674Z  ✓ Generating static pages (42/42)
+2026-08-16T21:51:18.9820996Z    Finalizing page optimization ...
+2026-08-16T21:51:18.9821743Z    Collecting build traces ...
+2026-08-16T21:51:23.1393875Z 
+2026-08-16T21:51:23.1463394Z Route (app)                              Size     First Load JS
+2026-08-16T21:51:23.1464824Z ┌ ○ /                                    137 B          87.2 kB
+2026-08-16T21:51:23.1465902Z ├ ○ /_not-found                          871 B          87.9 kB
+2026-08-16T21:51:23.1467127Z ├ ƒ /api/ai/chat                         0 B                0 B
+2026-08-16T21:51:23.1468204Z ├ ƒ /api/auth/login                      0 B                0 B
+2026-08-16T21:51:23.1469416Z ├ ƒ /api/auth/logout                     0 B                0 B
+2026-08-16T21:51:23.1470514Z ├ ƒ /api/auth/register                   0 B                0 B
+2026-08-16T21:51:23.1471839Z ├ ƒ /api/auth/session                    0 B                0 B
+2026-08-16T21:51:23.1473390Z ├ ƒ /api/billing/checkout                0 B                0 B
+2026-08-16T21:51:23.1475260Z ├ ƒ /api/billing/subscription            0 B                0 B
+2026-08-16T21:51:23.1476859Z ├ ƒ /api/billing/webhook-stub            0 B                0 B
+2026-08-16T21:51:23.1477864Z ├ ƒ /api/clients                         0 B                0 B
+2026-08-16T21:51:23.1478867Z ├ ƒ /api/clients/[id]                    0 B                0 B
+2026-08-16T21:51:23.1479935Z ├ ƒ /api/contracts                       0 B                0 B
+2026-08-16T21:51:23.1480950Z ├ ƒ /api/contracts/[id]                  0 B                0 B
+2026-08-16T21:51:23.1482034Z ├ ƒ /api/dashboard                       0 B                0 B
+2026-08-16T21:51:23.1483468Z ├ ƒ /api/documents/ocr                   0 B                0 B
+2026-08-16T21:51:23.1484872Z ├ ƒ /api/expenses                        0 B                0 B
+2026-08-16T21:51:23.1485985Z ├ ƒ /api/integrations/sync               0 B                0 B
+2026-08-16T21:51:23.1487075Z ├ ƒ /api/invoices                        0 B                0 B
+2026-08-16T21:51:23.1487994Z ├ ƒ /api/notifications                   0 B                0 B
+2026-08-16T21:51:23.1488970Z ├ ƒ /api/notifications/[id]              0 B                0 B
+2026-08-16T21:51:23.1489940Z ├ ƒ /api/notifications/generate          0 B                0 B
+2026-08-16T21:51:23.1490880Z ├ ƒ /api/payments                        0 B                0 B
+2026-08-16T21:51:23.1491749Z ├ ƒ /api/pipeline                        0 B                0 B
+2026-08-16T21:51:23.1492692Z ├ ƒ /api/recruitment-orders              0 B                0 B
+2026-08-16T21:51:23.1493672Z ├ ƒ /api/recruitment-orders/[id]         0 B                0 B
+2026-08-16T21:51:23.1494901Z ├ ƒ /api/reports                         0 B                0 B
+2026-08-16T21:51:23.1496205Z ├ ƒ /api/seed                            0 B                0 B
+2026-08-16T21:51:23.1497188Z ├ ƒ /api/travel                          0 B                0 B
+2026-08-16T21:51:23.1498205Z ├ ƒ /api/travel/[id]                     0 B                0 B
+2026-08-16T21:51:23.1499171Z ├ ƒ /api/visas                           0 B                0 B
+2026-08-16T21:51:23.1500095Z ├ ƒ /api/visas/[id]                      0 B                0 B
+2026-08-16T21:51:23.1501065Z ├ ƒ /api/visas/[id]/sync                 0 B                0 B
+2026-08-16T21:51:23.1502006Z ├ ƒ /api/workers                         0 B                0 B
+2026-08-16T21:51:23.1502915Z ├ ƒ /api/workers/[id]                    0 B                0 B
+2026-08-16T21:51:23.1503864Z ├ ƒ /api/workers/[id]/documents          0 B                0 B
+2026-08-16T21:51:23.1505025Z ├ ○ /clients                             3.37 kB        98.9 kB
+2026-08-16T21:51:23.1505937Z ├ ○ /contracts                           3.86 kB        99.3 kB
+2026-08-16T21:51:23.1506848Z ├ ○ /dashboard                           3.37 kB        98.9 kB
+2026-08-16T21:51:23.1507714Z ├ ○ /documents                           2.62 kB        98.1 kB
+2026-08-16T21:51:23.1508590Z ├ ○ /login                               1.62 kB        88.7 kB
+2026-08-16T21:51:23.1509485Z ├ ○ /notifications                       2.88 kB        98.4 kB
+2026-08-16T21:51:23.1510392Z ├ ○ /orders                              4.04 kB        99.5 kB
+2026-08-16T21:51:23.1511275Z ├ ○ /payments                            4.36 kB        99.8 kB
+2026-08-16T21:51:23.1512144Z ├ ○ /pipeline                            3.45 kB        98.9 kB
+2026-08-16T21:51:23.1513149Z ├ ○ /reports                             2.77 kB        98.3 kB
+2026-08-16T21:51:23.1514127Z ├ ○ /travel                              3.84 kB        99.3 kB
+2026-08-16T21:51:23.1515337Z ├ ○ /visas                               4.16 kB        99.7 kB
+2026-08-16T21:51:23.1516261Z └ ○ /workers                             4.17 kB        99.7 kB
+2026-08-16T21:51:23.1517029Z + First Load JS shared by all            87.1 kB
+2026-08-16T21:51:23.1517832Z   ├ chunks/23-72ccbb43045dd2eb.js        31.5 kB
+2026-08-16T21:51:23.1518624Z   ├ chunks/fd9d1056-f5ca11604835b0e5.js  53.6 kB
+2026-08-16T21:51:23.1519392Z   └ other shared chunks (total)          1.89 kB
+2026-08-16T21:51:23.1519785Z 
+2026-08-16T21:51:23.1519794Z 
+2026-08-16T21:51:23.1520205Z ƒ Middleware                             38.2 kB
+2026-08-16T21:51:23.1520583Z 
+2026-08-16T21:51:23.1520980Z ○  (Static)   prerendered as static content
+2026-08-16T21:51:23.1521692Z ƒ  (Dynamic)  server-rendered on demand
+2026-08-16T21:51:23.1522014Z 
+2026-08-16T21:51:23.1894060Z ##[group]Run npx wrangler pages deploy out --project-name recruitment-agency-os --branch main
+2026-08-16T21:51:23.1895416Z [36;1mnpx wrangler pages deploy out --project-name recruitment-agency-os --branch main[0m
+2026-08-16T21:51:23.1933258Z shell: /usr/bin/bash -e {0}
+2026-08-16T21:51:23.1933585Z env:
+2026-08-16T21:51:23.1933853Z   CLOUDFLARE_API_TOKEN: 
+2026-08-16T21:51:23.1934382Z   CLOUDFLARE_ACCOUNT_ID: 
+2026-08-16T21:51:23.1934724Z ##[endgroup]
+2026-08-16T21:51:23.9762008Z [33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mProcessing wrangler.toml configuration:[0m
+2026-08-16T21:51:23.9762825Z 
+2026-08-16T21:51:23.9763374Z     - Unexpected fields found in d1_databases[0] field: "migration_dir"
+2026-08-16T21:51:23.9764035Z 
+2026-08-16T21:51:23.9764045Z 
+2026-08-16T21:51:23.9928566Z 
+2026-08-16T21:51:23.9941425Z [31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mIn a non-interactive environment, it's necessary to set a CLOUDFLARE_API_TOKEN environment variable for wrangler to work. Please go to https://developers.cloudflare.com/fundamentals/api/get-started/create-token/ for instructions on how to create an api token, and assign its value to CLOUDFLARE_API_TOKEN.[0m
+2026-08-16T21:51:23.9943147Z 
+2026-08-16T21:51:23.9943168Z 
+2026-08-16T21:51:24.0285683Z 🪵  Logs were written to "/home/runner/.config/.wrangler/logs/wrangler-2026-08-16_21-51-23_793.log"
+2026-08-16T21:51:24.1018372Z ##[error]Process completed with exit code 1.
+2026-08-16T21:51:24.1160001Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-16T21:51:24.1161347Z Post job cleanup.
+2026-08-16T21:51:24.2019346Z [command]/usr/bin/git version
+2026-08-16T21:51:24.2092308Z git version 2.54.0
+2026-08-16T21:51:24.2131021Z Temporarily overriding HOME='/home/runner/work/_temp/2bc56046-9987-4a50-b796-0a3a56eb26b3' before making global git config changes
+2026-08-16T21:51:24.2132696Z Adding repository directory to the temporary git global config as a safe directory
+2026-08-16T21:51:24.2136840Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/ethioagencies/ethioagencies
+2026-08-16T21:51:24.2173559Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-08-16T21:51:24.2210185Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-08-16T21:51:24.2455876Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-08-16T21:51:24.2476395Z http.https://github.com/.extraheader
+2026-08-16T21:51:24.2487767Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-08-16T21:51:24.2521675Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-08-16T21:51:24.2788145Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-08-16T21:51:24.2837945Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-08-16T21:51:24.3278383Z Cleaning up orphan processes
+2026-08-16T21:51:24.3639672Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
