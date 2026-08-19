@@ -1,229 +1,195 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import SidebarLayout from "@/components/SidebarLayout";
-import { Kanban, Plus, User, ArrowRight, ShieldCheck, X } from "lucide-react";
+import { Kanban, Plus, User, ArrowRight, ShieldCheck, X, CheckCircle2 } from "lucide-react";
 
-interface PipelineStages {
-  nominated: any[];
-  shortlisted: any[];
-  interviewed: any[];
-  medical_pending: any[];
-  visa_processing: any[];
-  deployed: any[];
-  rejected: any[];
+interface PipelineCandidate {
+  id: string;
+  workerName: string;
+  passport: string;
+  stage: string;
+  orderNumber: string;
+  date: string;
 }
 
 export default function PipelinePage() {
-  const [stages, setStages] = useState<PipelineStages>({
-    nominated: [],
-    shortlisted: [],
-    interviewed: [],
-    medical_pending: [],
-    visa_processing: [],
-    deployed: [],
-    rejected: [],
-  });
-  const [loading, setLoading] = useState(true);
+  const [candidates, setCandidates] = useState<PipelineCandidate[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [workers, setWorkers] = useState<any[]>([]);
   const [orders, setOrders] = useState<any[]>([]);
   const [selectedWorkerId, setSelectedWorkerId] = useState("");
   const [selectedOrderId, setSelectedOrderId] = useState("");
 
-  const fetchPipeline = async () => {
-    try {
-      const res = await fetch("/api/pipeline");
-      const data = await res.json();
-      if (data.stages) {
-        setStages(data.stages);
-      }
-      setLoading(false);
-    } catch (err) {
-      console.error(err);
-      setLoading(false);
-    }
-  };
-
-  const fetchFormData = async () => {
-    try {
-      const [wRes, oRes] = await Promise.all([
-        fetch("/api/workers?status=available"),
-        fetch("/api/recruitment-orders?status=open"),
-      ]);
-      const wData = await wRes.json();
-      const oData = await oRes.json();
-      setWorkers(wData.workers || []);
-      setOrders(oData.orders || []);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  useEffect(() => {
-    fetchPipeline();
-    fetchFormData();
-  }, []);
-
-  const handleMoveStage = async (candidateId: number, newStatus: string) => {
-    try {
-      const res = await fetch("/api/pipeline", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ candidateId, status: newStatus }),
-      });
-      if (res.ok) {
-        fetchPipeline();
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const handleAddToPipeline = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedWorkerId || !selectedOrderId) {
-      alert("Please select both a worker and an order");
-      return;
-    }
-    try {
-      const res = await fetch("/api/pipeline", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          workerId: parseInt(selectedWorkerId, 10),
-          orderId: parseInt(selectedOrderId, 10),
-          status: "nominated",
-        }),
-      });
-      if (res.ok) {
-        setShowAddModal(false);
-        setSelectedWorkerId("");
-        setSelectedOrderId("");
-        fetchPipeline();
-      } else {
-        const errData = await res.json();
-        alert(errData.error || "Failed to add candidate to pipeline");
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const stageConfigs = [
-    { key: "nominated", title: "Nominated", color: "bg-slate-100 text-slate-800 border-slate-200" },
-    { key: "shortlisted", title: "Shortlisted", color: "bg-indigo-50 text-indigo-800 border-indigo-200" },
-    { key: "interviewed", title: "Interviewed", color: "bg-purple-50 text-purple-800 border-purple-200" },
-    { key: "medical_pending", title: "Medical Pending", color: "bg-amber-50 text-amber-800 border-amber-200" },
-    { key: "visa_processing", title: "Visa Processing", color: "bg-blue-50 text-blue-800 border-blue-200" },
-    { key: "deployed", title: "Deployed", color: "bg-emerald-50 text-emerald-800 border-emerald-200" },
+  const stages = [
+    { key: "nominated", label: "Step 1: Nominated" },
+    { key: "medical", label: "Step 2: GAMCA Medical" },
+    { key: "musaned", label: "Step 3: Musaned Contract" },
+    { key: "visa", label: "Step 4: Enjaz Visa Stamping" },
+    { key: "deployed", label: "Step 5: Deployed (Saudi Arabia)" },
   ];
 
-  const nextStageMap: Record<string, string> = {
-    nominated: "shortlisted",
-    shortlisted: "interviewed",
-    interviewed: "medical_pending",
-    medical_pending: "visa_processing",
-    visa_processing: "deployed",
+  useEffect(() => {
+    const saved = localStorage.getItem("agency_pipeline");
+    const savedWorkers = localStorage.getItem("agency_workers");
+    const savedOrders = localStorage.getItem("agency_orders");
+
+    if (saved) {
+      try {
+        setCandidates(JSON.parse(saved));
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      const initial: PipelineCandidate[] = [
+        {
+          id: "P-1",
+          workerName: "Fatima Ahmed",
+          passport: "EP9821034",
+          stage: "visa",
+          orderNumber: "ORD-501",
+          date: "2026-08-10",
+        },
+        {
+          id: "P-2",
+          workerName: "Tigist Mekonnen",
+          passport: "EP4452910",
+          stage: "medical",
+          orderNumber: "ORD-502",
+          date: "2026-08-15",
+        },
+      ];
+      setCandidates(initial);
+      localStorage.setItem("agency_pipeline", JSON.stringify(initial));
+    }
+
+    if (savedWorkers) {
+      try {
+        setWorkers(JSON.parse(savedWorkers));
+      } catch (e) {}
+    }
+    if (savedOrders) {
+      try {
+        setOrders(JSON.parse(savedOrders));
+      } catch (e) {}
+    }
+  }, []);
+
+  const saveCandidates = (updated: PipelineCandidate[]) => {
+    setCandidates(updated);
+    localStorage.setItem("agency_pipeline", JSON.stringify(updated));
+  };
+
+  const handleMove = (id: string, nextStage: string) => {
+    const updated = candidates.map((c) => (c.id === id ? { ...c, stage: nextStage } : c));
+    saveCandidates(updated);
+  };
+
+  const handleAdd = (e: React.FormEvent) => {
+    e.preventDefault();
+    const worker = workers.find((w) => w.id === selectedWorkerId);
+    const order = orders.find((o) => o.id === selectedOrderId);
+    if (!worker || !order) {
+      alert("Please select both a candidate and an order.");
+      return;
+    }
+    const newCandidate: PipelineCandidate = {
+      id: `P-${Math.floor(100 + Math.random() * 900)}`,
+      workerName: `${worker.firstName} ${worker.lastName}`,
+      passport: worker.passportNumber,
+      stage: "nominated",
+      orderNumber: order.orderNumber,
+      date: new Date().toISOString().split("T")[0],
+    };
+    const updated = [newCandidate, ...candidates];
+    saveCandidates(updated);
+    setShowAddModal(false);
+    setSelectedWorkerId("");
+    setSelectedOrderId("");
   };
 
   return (
     <SidebarLayout>
       <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-200 pb-5">
           <div>
-            <h1 className="text-2xl font-black text-slate-900 tracking-tight">Recruitment Pipeline Kanban</h1>
-            <p className="text-sm text-slate-500 mt-1">Track candidate progress from nomination through medical, visa, and deployment.</p>
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+              <Kanban className="w-7 h-7 text-indigo-600" /> Saudi Recruitment Kanban Pipeline
+            </h1>
+            <p className="text-sm text-slate-500 mt-1">
+              Track candidates from initial nomination through GAMCA medical, Musaned contract, Enjaz visa, to final deployment.
+            </p>
           </div>
           <button
             onClick={() => setShowAddModal(true)}
-            className="inline-flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2.5 rounded-xl shadow-lg shadow-indigo-600/25 transition-all text-sm"
+            className="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-5 py-2.5 rounded-xl shadow-lg shadow-indigo-600/30 transition-all text-sm"
           >
-            <Plus className="w-4 h-4 mr-2" /> Nominate Candidate
+            <Plus className="w-4 h-4" /> Assign Candidate to Pipeline
           </button>
         </div>
 
-        {/* Kanban Columns */}
-        {loading ? (
-          <div className="p-12 text-center text-slate-500">Loading pipeline board...</div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 overflow-x-auto pb-4">
-            {stageConfigs.map((stage) => {
-              const stageCandidates = (stages as any)[stage.key] || [];
-              const nextStage = nextStageMap[stage.key];
-
-              return (
-                <div key={stage.key} className="bg-slate-100/70 rounded-2xl p-4 border border-slate-200/80 flex flex-col min-w-[260px]">
-                  <div className={`px-3 py-1.5 rounded-xl border text-xs font-bold uppercase tracking-wider flex items-center justify-between mb-3 ${stage.color}`}>
-                    <span>{stage.title}</span>
-                    <span className="bg-white px-2 py-0.5 rounded-md text-slate-900 shadow-xs">
-                      {stageCandidates.length}
-                    </span>
-                  </div>
-
-                  <div className="flex-1 space-y-3 overflow-y-auto max-h-[calc(100vh-280px)]">
-                    {stageCandidates.length === 0 ? (
-                      <div className="text-center py-8 text-xs text-slate-400 italic bg-white/50 rounded-xl border border-dashed border-slate-200">
-                        No candidates
-                      </div>
-                    ) : (
-                      stageCandidates.map((cand: any) => (
-                        <div key={cand.id} className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-2">
-                          <div>
-                            <p className="font-bold text-slate-900 text-sm">
-                              {cand.workerFirstName} {cand.workerLastName}
-                            </p>
-                            <p className="text-xs text-slate-500 font-mono">Pass: {cand.workerPassport}</p>
-                          </div>
-                          <div className="text-xs bg-slate-50 p-2 rounded-lg border border-slate-100">
-                            <span className="font-semibold text-slate-700">Order:</span> {cand.orderNumber} ({cand.clientName})
-                          </div>
-                          <div className="flex items-center justify-between pt-2 border-t border-slate-100">
-                            <button
-                              onClick={() => handleMoveStage(cand.id, "rejected")}
-                              className="text-xs text-red-600 hover:text-red-800 font-semibold"
-                            >
-                              Reject
-                            </button>
-                            {nextStage && (
-                              <button
-                                onClick={() => handleMoveStage(cand.id, nextStage)}
-                                className="inline-flex items-center text-xs font-semibold text-indigo-600 hover:text-indigo-800 bg-indigo-50 px-2 py-1 rounded-lg"
-                              >
-                                Move <ArrowRight className="w-3 h-3 ml-1" />
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
+        {/* Kanban Board */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 overflow-x-auto pb-4">
+          {stages.map((stage) => {
+            const list = candidates.filter((c) => c.stage === stage.key);
+            return (
+              <div key={stage.key} className="bg-slate-100/80 rounded-2xl p-4 flex flex-col min-w-[260px] border border-slate-200">
+                <div className="flex items-center justify-between mb-3 px-1">
+                  <h3 className="font-bold text-xs uppercase tracking-wider text-slate-700">{stage.label}</h3>
+                  <span className="bg-indigo-100 text-indigo-700 text-xs px-2 py-0.5 rounded-full font-bold">
+                    {list.length}
+                  </span>
                 </div>
-              );
-            })}
-          </div>
-        )}
+                <div className="space-y-3 flex-1">
+                  {list.map((c) => (
+                    <div key={c.id} className="bg-white p-4 rounded-xl shadow-sm border border-slate-200 space-y-2 hover:shadow-md transition-shadow">
+                      <div className="font-bold text-slate-900 text-sm">{c.workerName}</div>
+                      <div className="text-xs font-mono text-slate-500">Passport: {c.passport}</div>
+                      <div className="text-xs font-medium text-indigo-600">Order: {c.orderNumber}</div>
+                      
+                      <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
+                        <span className="text-[10px] text-slate-400">{c.date}</span>
+                        <div className="flex gap-1">
+                          {stage.key !== "deployed" && (
+                            <button
+                              onClick={() => {
+                                const nextMap: any = { nominated: "medical", medical: "musaned", musaned: "visa", visa: "deployed" };
+                                handleMove(c.id, nextMap[stage.key]);
+                              }}
+                              className="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-600 px-2 py-1 rounded-lg font-medium flex items-center gap-1"
+                            >
+                              Next <ArrowRight className="w-3 h-3" />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
 
-        {/* Add Candidate Modal */}
         {showAddModal && (
           <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-bold text-slate-900">Nominate Worker to Pipeline</h2>
+            <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-100 space-y-4">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                <h3 className="text-lg font-bold text-slate-900">Assign Candidate to Order</h3>
                 <button onClick={() => setShowAddModal(false)} className="text-slate-400 hover:text-slate-600">
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <form onSubmit={handleAddToPipeline} className="space-y-4">
+              <form onSubmit={handleAdd} className="space-y-4 text-sm">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Select Available Worker *</label>
+                  <label className="block font-medium text-slate-700 mb-1">Select Candidate</label>
                   <select
                     required
                     value={selectedWorkerId}
                     onChange={(e) => setSelectedWorkerId(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 font-medium text-slate-700"
+                    className="w-full px-3 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none"
                   >
-                    <option value="">Choose worker...</option>
+                    <option value="">Select Candidate...</option>
                     {workers.map((w) => (
                       <option key={w.id} value={w.id}>
                         {w.firstName} {w.lastName} ({w.passportNumber})
@@ -232,34 +198,34 @@ export default function PipelinePage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Select Open Recruitment Order *</label>
+                  <label className="block font-medium text-slate-700 mb-1">Select Recruitment Order</label>
                   <select
                     required
                     value={selectedOrderId}
                     onChange={(e) => setSelectedOrderId(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 font-medium text-slate-700"
+                    className="w-full px-3 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none"
                   >
-                    <option value="">Choose order...</option>
+                    <option value="">Select Order / Wakala...</option>
                     {orders.map((o) => (
                       <option key={o.id} value={o.id}>
-                        {o.orderNumber} - {o.position} ({o.clientName})
+                        {o.orderNumber} - {o.clientName} ({o.position})
                       </option>
                     ))}
                   </select>
                 </div>
-                <div className="flex justify-end space-x-3 pt-4 border-t border-slate-100">
+                <div className="flex justify-end gap-2 pt-2">
                   <button
                     type="button"
                     onClick={() => setShowAddModal(false)}
-                    className="px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50"
+                    className="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 font-medium"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-semibold hover:bg-indigo-700 shadow-md shadow-indigo-600/20"
+                    className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium shadow-md shadow-indigo-600/20"
                   >
-                    Nominate
+                    Add to Pipeline
                   </button>
                 </div>
               </form>
