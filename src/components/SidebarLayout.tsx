@@ -1,20 +1,5 @@
-"import React";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { 
-  LayoutDashboard, 
-  Users, 
-  Building2, 
-  FileText, 
-  Kanban, 
-  FolderArchive, 
-  Settings, 
-  LogOut, 
-  Menu, 
-  X,
-  Briefcase
-} from "lucide-react";
-import { useState } from "react";
+"use client";
+import React, { useState } from "react";
 
 interface SidebarLayoutProps {
   children: React.ReactNode;

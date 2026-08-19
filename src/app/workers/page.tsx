@@ -1,30 +1,36 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import SidebarLayout from "@/components/SidebarLayout";
-import { Users, Plus, Search, Filter, FileText, CheckCircle, AlertCircle, X, Trash2, Edit } from "lucide-react";
+import { Users, Plus, Search, Filter, FileText, CheckCircle2, AlertCircle, X, Trash2, Edit, Award, Plane, ShieldCheck } from "lucide-react";
 
 interface Worker {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   nationality: string;
   passportNumber: string;
   passportExpiryDate: string;
   phone: string;
-  status: string;
   gender: string;
+  status: string;
+  skills: string[];
+  experienceYears: number;
+  arabicLevel: string;
+  cookingSkill: string;
+  medicalStatus: string;
+  musanedStatus: string;
+  visaStatus: string;
 }
 
 export default function WorkersPage() {
   const [workers, setWorkers] = useState<Worker[]>([]);
-  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [showAddModal, setShowAddModal] = useState(false);
-  const [selectedWorker, setSelectedWorker] = useState<any | null>(null);
+  const [selectedWorker, setSelectedWorker] = useState<Worker | null>(null);
+  const [showCvModal, setShowCvModal] = useState(false);
 
-  // New worker form state
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -32,270 +38,452 @@ export default function WorkersPage() {
     nationality: "Ethiopian",
     phone: "",
     gender: "female",
-    status: "available",
-    passportExpiryDate: "",
+    status: "Available",
+    passportExpiryDate: "2029-12-31",
+    skills: "Housekeeping, Childcare, Cooking",
+    experienceYears: "2",
+    arabicLevel: "Intermediate",
+    cookingSkill: "Arabic Cuisine & Ethiopian",
+    medicalStatus: "Fit (GAMCA)",
+    musanedStatus: "Ready",
+    visaStatus: "Pending",
   });
 
-  const fetchWorkers = async () => {
-    try {
-      const res = await fetch(`/api/workers?status=${statusFilter}&search=${encodeURIComponent(search)}`);
-      const data = await res.json();
-      setWorkers(data.workers || []);
-      setLoading(false);
-    } catch (err) {
-      console.error(err);
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchWorkers();
-  }, [statusFilter, search]);
-
-  const handleCreateWorker = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const res = await fetch("/api/workers", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (res.ok) {
-        setShowAddModal(false);
-        setForm({
-          firstName: "",
-          lastName: "",
-          passportNumber: "",
+    const saved = localStorage.getItem("agency_workers");
+    if (saved) {
+      try {
+        setWorkers(JSON.parse(saved));
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      const initial: Worker[] = [
+        {
+          id: "W-101",
+          firstName: "Fatima",
+          lastName: "Ahmed",
           nationality: "Ethiopian",
-          phone: "",
+          passportNumber: "EP9821034",
+          passportExpiryDate: "2030-05-14",
+          phone: "+251 91 123 4567",
           gender: "female",
-          status: "available",
-          passportExpiryDate: "",
-        });
-        fetchWorkers();
-      } else {
-        const errData = await res.json();
-        alert(errData.error || "Failed to create worker");
-      }
-    } catch (err) {
-      console.error(err);
+          status: "Available",
+          skills: ["Housekeeping", "Cooking", "Childcare"],
+          experienceYears: 3,
+          arabicLevel: "Good",
+          cookingSkill: "Expert",
+          medicalStatus: "Passed (GAMCA)",
+          musanedStatus: "Contract Approved",
+          visaStatus: "Stamped",
+        },
+        {
+          id: "W-102",
+          firstName: "Tigist",
+          lastName: "Mekonnen",
+          nationality: "Ethiopian",
+          passportNumber: "EP4452910",
+          passportExpiryDate: "2029-11-20",
+          phone: "+251 92 345 6789",
+          gender: "female",
+          status: "In Processing",
+          skills: ["Cleaning", "Elderly Care"],
+          experienceYears: 2,
+          arabicLevel: "Basic",
+          cookingSkill: "Intermediate",
+          medicalStatus: "Pending",
+          musanedStatus: "Draft",
+          visaStatus: "Processing",
+        },
+      ];
+      setWorkers(initial);
+      localStorage.setItem("agency_workers", JSON.stringify(initial));
     }
+  }, []);
+
+  const saveWorkers = (updated: Worker[]) => {
+    setWorkers(updated);
+    localStorage.setItem("agency_workers", JSON.stringify(updated));
   };
 
-  const handleSelectWorker = async (id: number) => {
-    try {
-      const res = await fetch(`/api/workers/${id}`);
-      const data = await res.json();
-      setSelectedWorker(data.worker);
-    } catch (err) {
-      console.error(err);
-    }
+  const handleCreateWorker = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newWorker: Worker = {
+      id: `W-${Math.floor(100 + Math.random() * 900)}`,
+      firstName: form.firstName,
+      lastName: form.lastName,
+      nationality: form.nationality,
+      passportNumber: form.passportNumber,
+      passportExpiryDate: form.passportExpiryDate,
+      phone: form.phone,
+      gender: form.gender,
+      status: form.status,
+      skills: form.skills.split(",").map((s) => s.trim()),
+      experienceYears: Number(form.experienceYears),
+      arabicLevel: form.arabicLevel,
+      cookingSkill: form.cookingSkill,
+      medicalStatus: form.medicalStatus,
+      musanedStatus: form.musanedStatus,
+      visaStatus: form.visaStatus,
+    };
+    const updated = [newWorker, ...workers];
+    saveWorkers(updated);
+    setShowAddModal(false);
+    setForm({
+      firstName: "",
+      lastName: "",
+      passportNumber: "",
+      nationality: "Ethiopian",
+      phone: "",
+      gender: "female",
+      status: "Available",
+      passportExpiryDate: "2029-12-31",
+      skills: "Housekeeping, Childcare",
+      experienceYears: "2",
+      arabicLevel: "Intermediate",
+      cookingSkill: "Arabic Cuisine",
+      medicalStatus: "Fit (GAMCA)",
+      musanedStatus: "Ready",
+      visaStatus: "Pending",
+    });
   };
 
-  const handleDeleteWorker = async (id: number) => {
-    if (!confirm("Are you sure you want to delete this worker?")) return;
-    try {
-      const res = await fetch(`/api/workers/${id}`, { method: "DELETE" });
-      if (res.ok) {
-        if (selectedWorker?.id === id) setSelectedWorker(null);
-        fetchWorkers();
-      }
-    } catch (err) {
-      console.error(err);
-    }
+  const handleDelete = (id: string) => {
+    if (!confirm("Delete this worker record?")) return;
+    const updated = workers.filter((w) => w.id !== id);
+    saveWorkers(updated);
+    if (selectedWorker?.id === id) setSelectedWorker(null);
   };
+
+  const filteredWorkers = workers.filter((w) => {
+    const matchesSearch =
+      `${w.firstName} ${w.lastName} ${w.passportNumber} ${w.id}`
+        .toLowerCase()
+        .includes(search.toLowerCase());
+    const matchesStatus =
+      statusFilter === "all" || w.status.toLowerCase() === statusFilter.toLowerCase();
+    return matchesSearch && matchesStatus;
+  });
 
   return (
     <SidebarLayout>
       <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-200 pb-5">
           <div>
-            <h1 className="text-2xl font-black text-slate-900 tracking-tight">Worker Management</h1>
-            <p className="text-sm text-slate-500 mt-1">Manage talent pool, passports, documents, and availability status.</p>
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+              <Users className="w-7 h-7 text-indigo-600" /> Worker Assessment & Saudi Export Pipeline
+            </h1>
+            <p className="text-sm text-slate-500 mt-1">
+              Manage candidate bio-data, automated CV generation, GAMCA medical check, Musaned contracts, and travel processing.
+            </p>
           </div>
           <button
             onClick={() => setShowAddModal(true)}
-            className="inline-flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2.5 rounded-xl shadow-lg shadow-indigo-600/25 transition-all text-sm"
+            className="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-5 py-2.5 rounded-xl shadow-lg shadow-indigo-600/30 transition-all text-sm"
           >
-            <Plus className="w-4 h-4 mr-2" /> Add Worker
+            <Plus className="w-4 h-4" /> Add New Candidate
           </button>
         </div>
 
         {/* Filters & Search */}
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80">
           <div className="relative w-full md:w-96">
             <Search className="absolute left-3.5 top-3 w-4 h-4 text-slate-400" />
             <input
               type="text"
-              placeholder="Search by name, passport, phone..."
+              placeholder="Search by name, passport, ID..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
+              className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 bg-slate-50/50"
             />
           </div>
-          <div className="flex items-center space-x-3 w-full md:w-auto">
+          <div className="flex items-center gap-2 w-full md:w-auto">
             <Filter className="w-4 h-4 text-slate-400" />
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 font-medium text-slate-700"
+              className="px-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 bg-slate-50/50 w-full md:w-auto"
             >
               <option value="all">All Statuses</option>
               <option value="available">Available</option>
-              <option value="processing">Processing</option>
+              <option value="in processing">In Processing</option>
               <option value="deployed">Deployed</option>
-              <option value="blacklisted">Blacklisted</option>
             </select>
           </div>
         </div>
 
-        {/* Workers Table */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          {loading ? (
-            <div className="p-12 text-center text-slate-500">Loading workers...</div>
-          ) : workers.length === 0 ? (
-            <div className="p-12 text-center text-slate-500">No workers found.</div>
-          ) : (
+        {/* Workers Table & Quick View */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                    <th className="p-4">Worker Name</th>
+                  <tr className="bg-slate-50/80 border-b border-slate-200 text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                    <th className="p-4">Candidate</th>
                     <th className="p-4">Passport</th>
-                    <th className="p-4">Nationality</th>
-                    <th className="p-4">Phone</th>
+                    <th className="p-4">Skills & Arabic</th>
                     <th className="p-4">Status</th>
                     <th className="p-4 text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 text-sm">
-                  {workers.map((worker) => (
-                    <tr key={worker.id} className="hover:bg-slate-50/80 transition-colors">
-                      <td className="p-4 font-semibold text-slate-900">
-                        {worker.firstName} {worker.lastName}
-                      </td>
-                      <td className="p-4 text-slate-600 font-mono text-xs">{worker.passportNumber}</td>
-                      <td className="p-4 text-slate-600">{worker.nationality || "Ethiopian"}</td>
-                      <td className="p-4 text-slate-600">{worker.phone || "N/A"}</td>
-                      <td className="p-4">
-                        <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-semibold capitalize ${
-                          worker.status === "available" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" :
-                          worker.status === "processing" ? "bg-blue-50 text-blue-700 border border-blue-200" :
-                          worker.status === "deployed" ? "bg-purple-50 text-purple-700 border border-purple-200" :
-                          "bg-slate-100 text-slate-700"
-                        }`}>
-                          {worker.status}
-                        </span>
-                      </td>
-                      <td className="p-4 text-right space-x-2">
-                        <button
-                          onClick={() => handleSelectWorker(worker.id)}
-                          className="px-3 py-1.5 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 font-semibold rounded-lg text-xs transition-colors"
-                        >
-                          Profile & Docs
-                        </button>
-                        <button
-                          onClick={() => handleDeleteWorker(worker.id)}
-                          className="p-1.5 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-colors"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+                  {filteredWorkers.length === 0 ? (
+                    <tr>
+                      <td colSpan={5} className="p-8 text-center text-slate-400">
+                        No candidates found. Click "Add New Candidate" to register.
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    filteredWorkers.map((w) => (
+                      <tr
+                        key={w.id}
+                        onClick={() => setSelectedWorker(w)}
+                        className={`hover:bg-slate-50/80 cursor-pointer transition-colors ${
+                          selectedWorker?.id === w.id ? "bg-indigo-50/50" : ""
+                        }`}
+                      >
+                        <td className="p-4">
+                          <div className="font-semibold text-slate-900">
+                            {w.firstName} {w.lastName}
+                          </div>
+                          <div className="text-xs text-slate-500">
+                            {w.nationality} • {w.gender} • {w.id}
+                          </div>
+                        </td>
+                        <td className="p-4 font-mono text-xs text-slate-600">
+                          {w.passportNumber}
+                        </td>
+                        <td className="p-4">
+                          <div className="text-xs font-medium text-slate-700">
+                            Arabic: {w.arabicLevel}
+                          </div>
+                          <div className="text-xs text-slate-500">
+                            {w.cookingSkill}
+                          </div>
+                        </td>
+                        <td className="p-4">
+                          <span
+                            className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
+                              w.status === "Available"
+                                ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                                : w.status === "In Processing"
+                                ? "bg-amber-50 text-amber-700 border border-amber-200"
+                                : "bg-indigo-50 text-indigo-700 border border-indigo-200"
+                            }`}
+                          >
+                            {w.status}
+                          </span>
+                        </td>
+                        <td className="p-4 text-right space-x-2">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedWorker(w);
+                              setShowCvModal(true);
+                            }}
+                            className="inline-flex items-center gap-1 text-indigo-600 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
+                          >
+                            <FileText className="w-3.5 h-3.5" /> Auto CV
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDelete(w.id);
+                            }}
+                            className="text-slate-400 hover:text-red-600 p-1.5 rounded-lg transition-colors"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
-          )}
+          </div>
+
+          {/* Selected Worker Assessment & Saudi Pipeline Panel */}
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 space-y-6">
+            {selectedWorker ? (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                  <div>
+                    <h2 className="text-lg font-bold text-slate-900">
+                      {selectedWorker.firstName} {selectedWorker.lastName}
+                    </h2>
+                    <p className="text-xs text-slate-500">ID: {selectedWorker.id} • Passport: {selectedWorker.passportNumber}</p>
+                  </div>
+                  <button
+                    onClick={() => setShowCvModal(true)}
+                    className="bg-indigo-600 text-white px-3 py-2 rounded-xl text-xs font-medium shadow-md shadow-indigo-600/20 hover:bg-indigo-700 flex items-center gap-1.5"
+                  >
+                    <FileText className="w-3.5 h-3.5" /> View Auto CV
+                  </button>
+                </div>
+
+                {/* Saudi Arabia Export Pipeline */}
+                <div>
+                  <h3 className="text-sm font-semibold text-slate-900 mb-3 flex items-center gap-2">
+                    <Plane className="w-4 h-4 text-indigo-600" /> Saudi Export Pipeline (Musaned)
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs">
+                      <span className="font-medium text-slate-700">GAMCA Medical Check</span>
+                      <span className="text-emerald-600 font-semibold">{selectedWorker.medicalStatus}</span>
+                    </div>
+                    <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs">
+                      <span className="font-medium text-slate-700">Musaned Contract</span>
+                      <span className="text-indigo-600 font-semibold">{selectedWorker.musanedStatus}</span>
+                    </div>
+                    <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs">
+                      <span className="font-medium text-slate-700">Enjaz Visa Stamping</span>
+                      <span className="text-amber-600 font-semibold">{selectedWorker.visaStatus}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Assessment Skills */}
+                <div>
+                  <h3 className="text-sm font-semibold text-slate-900 mb-3 flex items-center gap-2">
+                    <Award className="w-4 h-4 text-indigo-600" /> Candidate Assessment
+                  </h3>
+                  <div className="grid grid-cols-2 gap-3 text-xs">
+                    <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                      <span className="text-slate-500 block">Experience</span>
+                      <span className="font-bold text-slate-800">{selectedWorker.experienceYears} Years</span>
+                    </div>
+                    <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                      <span className="text-slate-500 block">Arabic Level</span>
+                      <span className="font-bold text-slate-800">{selectedWorker.arabicLevel}</span>
+                    </div>
+                    <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 col-span-2">
+                      <span className="text-slate-500 block">Cooking Skill</span>
+                      <span className="font-bold text-slate-800">{selectedWorker.cookingSkill}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-12 text-slate-400">
+                <Users className="w-10 h-10 mx-auto mb-3 opacity-40" />
+                <p className="text-sm font-medium">Select a candidate to view assessment and Saudi export workflow.</p>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Add Worker Modal */}
+        {/* Add Candidate Modal */}
         {showAddModal && (
           <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-bold text-slate-900">Register New Worker</h2>
+            <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                <h3 className="text-lg font-bold text-slate-900">Register Candidate & Generate Bio-data</h3>
                 <button onClick={() => setShowAddModal(false)} className="text-slate-400 hover:text-slate-600">
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <form onSubmit={handleCreateWorker} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+              <form onSubmit={handleCreateWorker} className="space-y-4 text-sm">
+                <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">First Name *</label>
+                    <label className="block font-medium text-slate-700 mb-1">First Name</label>
                     <input
                       type="text"
                       required
                       value={form.firstName}
                       onChange={(e) => setForm({ ...form, firstName: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Last Name *</label>
+                    <label className="block font-medium text-slate-700 mb-1">Last Name</label>
                     <input
                       type="text"
                       required
                       value={form.lastName}
                       onChange={(e) => setForm({ ...form, lastName: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none"
                     />
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Passport Number *</label>
+                    <label className="block font-medium text-slate-700 mb-1">Passport Number</label>
                     <input
                       type="text"
                       required
                       value={form.passportNumber}
                       onChange={(e) => setForm({ ...form, passportNumber: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 font-mono"
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none font-mono text-xs"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Passport Expiry</label>
-                    <input
-                      type="date"
-                      value={form.passportExpiryDate}
-                      onChange={(e) => setForm({ ...form, passportExpiryDate: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Nationality</label>
-                    <input
-                      type="text"
-                      value={form.nationality}
-                      onChange={(e) => setForm({ ...form, nationality: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Phone</label>
+                    <label className="block font-medium text-slate-700 mb-1">Phone Number</label>
                     <input
                       type="text"
                       value={form.phone}
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none"
                     />
                   </div>
                 </div>
-                <div className="flex justify-end space-x-3 pt-4 border-t border-slate-100">
+                <div className="grid grid-cols-3 gap-3">
+                  <div>
+                    <label className="block font-medium text-slate-700 mb-1">Experience (Yrs)</label>
+                    <input
+                      type="number"
+                      value={form.experienceYears}
+                      onChange={(e) => setForm({ ...form, experienceYears: e.target.value })}
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-medium text-slate-700 mb-1">Arabic Level</label>
+                    <select
+                      value={form.arabicLevel}
+                      onChange={(e) => setForm({ ...form, arabicLevel: e.target.value })}
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none"
+                    >
+                      <option value="Basic">Basic</option>
+                      <option value="Intermediate">Intermediate</option>
+                      <option value="Fluent">Fluent</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block font-medium text-slate-700 mb-1">Gender</label>
+                    <select
+                      value={form.gender}
+                      onChange={(e) => setForm({ ...form, gender: e.target.value })}
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none"
+                    >
+                      <option value="female">Female</option>
+                      <option value="male">Male</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <label className="block font-medium text-slate-700 mb-1">Cooking Skill & Assessment</label>
+                  <input
+                    type="text"
+                    value={form.cookingSkill}
+                    onChange={(e) => setForm({ ...form, cookingSkill: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none"
+                  />
+                </div>
+                <div className="flex justify-end gap-2 pt-2">
                   <button
                     type="button"
                     onClick={() => setShowAddModal(false)}
-                    className="px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50"
+                    className="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 font-medium"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-semibold hover:bg-indigo-700 shadow-md shadow-indigo-600/20"
+                    className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium shadow-md shadow-indigo-600/20"
                   >
-                    Save Worker
+                    Register & Auto-Generate CV
                   </button>
                 </div>
               </form>
@@ -303,72 +491,89 @@ export default function WorkersPage() {
           </div>
         )}
 
-        {/* Worker Detail / Documents Modal */}
-        {selectedWorker && (
+        {/* Auto CV / Bio-data Modal */}
+        {showCvModal && selectedWorker && (
           <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl max-w-3xl w-full p-6 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
-              <div className="flex items-center justify-between mb-6 border-b border-slate-100 pb-4">
-                <div>
-                  <h2 className="text-xl font-black text-slate-900">
-                    {selectedWorker.firstName} {selectedWorker.lastName}
-                  </h2>
-                  <p className="text-xs text-slate-500 font-mono mt-0.5">Passport: {selectedWorker.passportNumber}</p>
+            <div className="bg-white rounded-2xl max-w-2xl w-full p-8 shadow-2xl border border-slate-100 space-y-6 max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+                <div className="flex items-center gap-2">
+                  <div className="bg-indigo-600 text-white p-2 rounded-xl font-bold">CV</div>
+                  <div>
+                    <h3 className="text-xl font-bold text-slate-900">Official Musaned Bio-Data CV</h3>
+                    <p className="text-xs text-slate-500">Saudi Arabia Recruitment Export Document</p>
+                  </div>
                 </div>
-                <button onClick={() => setSelectedWorker(null)} className="text-slate-400 hover:text-slate-600">
-                  <X className="w-6 h-6" />
+                <button onClick={() => setShowCvModal(false)} className="text-slate-400 hover:text-slate-600">
+                  <X className="w-5 h-5" />
                 </button>
               </div>
 
-              <div className="space-y-6">
-                <div className="grid grid-cols-3 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+              <div className="space-y-6 border border-slate-200 p-6 rounded-2xl bg-slate-50/50">
+                <div className="flex items-center justify-between">
                   <div>
-                    <span className="text-xs font-semibold text-slate-400 uppercase">Status</span>
-                    <p className="text-sm font-bold text-slate-900 capitalize mt-0.5">{selectedWorker.status}</p>
+                    <h4 className="text-2xl font-bold text-slate-900">{selectedWorker.firstName} {selectedWorker.lastName}</h4>
+                    <p className="text-sm text-indigo-600 font-medium">Position: Domestic Worker / Housemaid</p>
+                  </div>
+                  <div className="text-right text-xs text-slate-500 font-mono">
+                    Candidate ID: {selectedWorker.id}<br/>
+                    Nationality: {selectedWorker.nationality}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-xs bg-white p-4 rounded-xl border border-slate-200">
+                  <div>
+                    <span className="text-slate-400 block">Passport No</span>
+                    <span className="font-bold text-slate-800 font-mono">{selectedWorker.passportNumber}</span>
                   </div>
                   <div>
-                    <span className="text-xs font-semibold text-slate-400 uppercase">Nationality</span>
-                    <p className="text-sm font-bold text-slate-900 mt-0.5">{selectedWorker.nationality || "N/A"}</p>
+                    <span className="text-slate-400 block">Passport Expiry</span>
+                    <span className="font-bold text-slate-800">{selectedWorker.passportExpiryDate}</span>
                   </div>
                   <div>
-                    <span className="text-xs font-semibold text-slate-400 uppercase">Phone</span>
-                    <p className="text-sm font-bold text-slate-900 mt-0.5">{selectedWorker.phone || "N/A"}</p>
+                    <span className="text-slate-400 block">Phone</span>
+                    <span className="font-bold text-slate-800">{selectedWorker.phone}</span>
+                  </div>
+                  <div>
+                    <span className="text-slate-400 block">Experience</span>
+                    <span className="font-bold text-slate-800">{selectedWorker.experienceYears} Years</span>
+                  </div>
+                  <div>
+                    <span className="text-slate-400 block">Arabic Proficiency</span>
+                    <span className="font-bold text-slate-800">{selectedWorker.arabicLevel}</span>
+                  </div>
+                  <div>
+                    <span className="text-slate-400 block">GAMCA Medical</span>
+                    <span className="font-bold text-emerald-600">{selectedWorker.medicalStatus}</span>
                   </div>
                 </div>
 
                 <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-bold text-slate-900 text-base">Worker Documents & Compliance</h3>
+                  <h5 className="font-semibold text-slate-900 text-sm mb-2">Verified Skills & Assessment</h5>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedWorker.skills.map((skill, i) => (
+                      <span key={i} className="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-lg text-xs font-medium border border-indigo-100">
+                        {skill}
+                      </span>
+                    ))}
+                    <span className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-lg text-xs font-medium border border-emerald-100">
+                      Cooking: {selectedWorker.cookingSkill}
+                    </span>
                   </div>
-                  {selectedWorker.documents && selectedWorker.documents.length > 0 ? (
-                    <div className="space-y-2">
-                      {selectedWorker.documents.map((doc: any) => (
-                        <div key={doc.id} className="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-xl">
-                          <div>
-                            <p className="font-semibold text-slate-900 capitalize text-sm">{doc.documentType.replace("_", " ")}</p>
-                            <p className="text-xs text-slate-500 font-mono">No: {doc.documentNumber || "N/A"} • Status: {doc.status}</p>
-                          </div>
-                          <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
-                            doc.status === "verified" ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"
-                          }`}>
-                            {doc.status}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-sm text-slate-500 italic bg-slate-50 p-4 rounded-xl border border-slate-200 text-center">
-                      No documents uploaded yet for this worker.
-                    </p>
-                  )}
                 </div>
               </div>
 
-              <div className="mt-8 pt-4 border-t border-slate-100 flex justify-end">
+              <div className="flex justify-end gap-3 pt-2">
                 <button
-                  onClick={() => setSelectedWorker(null)}
-                  className="px-4 py-2 bg-slate-900 text-white rounded-xl text-sm font-semibold hover:bg-slate-800"
+                  onClick={() => window.print()}
+                  className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-medium text-sm shadow-md"
                 >
-                  Close Profile
+                  Print / Download CV PDF
+                </button>
+                <button
+                  onClick={() => setShowCvModal(false)}
+                  className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm shadow-md shadow-indigo-600/20"
+                >
+                  Close
                 </button>
               </div>
             </div>
