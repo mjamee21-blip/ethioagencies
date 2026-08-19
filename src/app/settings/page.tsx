@@ -16,7 +16,8 @@ import {
   Mail, 
   Phone, 
   MapPin, 
-  Upload 
+  Upload,
+  X
 } from "lucide-react";
 
 export default function SettingsPage() {
