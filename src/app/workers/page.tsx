@@ -129,6 +129,7 @@ export default function WorkersPage() {
     const updated = [newWorker, ...workers];
     saveWorkers(updated);
     setShowAddModal(false);
+    setSelectedWorker(newWorker);
     setForm({
       firstName: "",
       lastName: "",
@@ -171,8 +172,8 @@ export default function WorkersPage() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-200 pb-5">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-              <Users className="w-7 h-7 text-indigo-600" /> Worker Assessment & Saudi Export Pipeline
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+              <Users className="w-7 h-7 text-indigo-600" /> Candidate Pool & Worker Assessment
             </h1>
             <p className="text-sm text-slate-500 mt-1">
               Manage candidate bio-data, automated CV generation, GAMCA medical check, Musaned contracts, and travel processing.
@@ -180,7 +181,7 @@ export default function WorkersPage() {
           </div>
           <button
             onClick={() => setShowAddModal(true)}
-            className="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-5 py-2.5 rounded-xl shadow-lg shadow-indigo-600/30 transition-all text-sm"
+            className="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2.5 rounded-xl shadow-lg shadow-indigo-600/25 transition-all text-sm"
           >
             <Plus className="w-4 h-4" /> Add New Candidate
           </button>
@@ -203,7 +204,7 @@ export default function WorkersPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 bg-slate-50/50 w-full md:w-auto"
+              className="px-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 bg-slate-50/50 w-full md:w-auto font-medium"
             >
               <option value="all">All Statuses</option>
               <option value="available">Available</option>
@@ -219,7 +220,7 @@ export default function WorkersPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-slate-50/80 border-b border-slate-200 text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                  <tr className="bg-slate-50/80 border-b border-slate-200 text-xs font-bold text-slate-600 uppercase tracking-wider">
                     <th className="p-4">Candidate</th>
                     <th className="p-4">Passport</th>
                     <th className="p-4">Skills & Arabic</th>
@@ -230,7 +231,7 @@ export default function WorkersPage() {
                 <tbody className="divide-y divide-slate-100 text-sm">
                   {filteredWorkers.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="p-8 text-center text-slate-400">
+                      <td colSpan={5} className="p-8 text-center text-slate-400 font-medium">
                         No candidates found. Click "Add New Candidate" to register.
                       </td>
                     </tr>
@@ -240,31 +241,31 @@ export default function WorkersPage() {
                         key={w.id}
                         onClick={() => setSelectedWorker(w)}
                         className={`hover:bg-slate-50/80 cursor-pointer transition-colors ${
-                          selectedWorker?.id === w.id ? "bg-indigo-50/50" : ""
+                          selectedWorker?.id === w.id ? "bg-indigo-50/60" : ""
                         }`}
                       >
                         <td className="p-4">
-                          <div className="font-semibold text-slate-900">
+                          <div className="font-bold text-slate-900">
                             {w.firstName} {w.lastName}
                           </div>
-                          <div className="text-xs text-slate-500">
+                          <div className="text-xs text-slate-500 font-medium">
                             {w.nationality} • {w.gender} • {w.id}
                           </div>
                         </td>
-                        <td className="p-4 font-mono text-xs text-slate-600">
+                        <td className="p-4 font-mono text-xs text-slate-600 font-medium">
                           {w.passportNumber}
                         </td>
                         <td className="p-4">
-                          <div className="text-xs font-medium text-slate-700">
+                          <div className="text-xs font-bold text-slate-700">
                             Arabic: {w.arabicLevel}
                           </div>
-                          <div className="text-xs text-slate-500">
+                          <div className="text-xs text-slate-500 font-medium">
                             {w.cookingSkill}
                           </div>
                         </td>
                         <td className="p-4">
                           <span
-                            className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
+                            className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${
                               w.status === "Available"
                                 ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
                                 : w.status === "In Processing"
@@ -282,7 +283,7 @@ export default function WorkersPage() {
                               setSelectedWorker(w);
                               setShowCvModal(true);
                             }}
-                            className="inline-flex items-center gap-1 text-indigo-600 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
+                            className="inline-flex items-center gap-1 text-indigo-600 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors"
                           >
                             <FileText className="w-3.5 h-3.5" /> Auto CV
                           </button>
@@ -310,14 +311,14 @@ export default function WorkersPage() {
               <div className="space-y-6">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                   <div>
-                    <h2 className="text-lg font-bold text-slate-900">
+                    <h2 className="text-lg font-black text-slate-900">
                       {selectedWorker.firstName} {selectedWorker.lastName}
                     </h2>
-                    <p className="text-xs text-slate-500">ID: {selectedWorker.id} • Passport: {selectedWorker.passportNumber}</p>
+                    <p className="text-xs text-slate-500 font-medium">ID: {selectedWorker.id} • Passport: {selectedWorker.passportNumber}</p>
                   </div>
                   <button
                     onClick={() => setShowCvModal(true)}
-                    className="bg-indigo-600 text-white px-3 py-2 rounded-xl text-xs font-medium shadow-md shadow-indigo-600/20 hover:bg-indigo-700 flex items-center gap-1.5"
+                    className="bg-indigo-600 text-white px-3.5 py-2 rounded-xl text-xs font-semibold shadow-md shadow-indigo-600/20 hover:bg-indigo-700 flex items-center gap-1.5"
                   >
                     <FileText className="w-3.5 h-3.5" /> View Auto CV
                   </button>
@@ -325,42 +326,42 @@ export default function WorkersPage() {
 
                 {/* Saudi Arabia Export Pipeline */}
                 <div>
-                  <h3 className="text-sm font-semibold text-slate-900 mb-3 flex items-center gap-2">
+                  <h3 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
                     <Plane className="w-4 h-4 text-indigo-600" /> Saudi Export Pipeline (Musaned)
                   </h3>
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs">
-                      <span className="font-medium text-slate-700">GAMCA Medical Check</span>
-                      <span className="text-emerald-600 font-semibold">{selectedWorker.medicalStatus}</span>
+                    <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs font-medium">
+                      <span className="text-slate-700">GAMCA Medical Check</span>
+                      <span className="text-emerald-600 font-bold">{selectedWorker.medicalStatus}</span>
                     </div>
-                    <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs">
-                      <span className="font-medium text-slate-700">Musaned Contract</span>
-                      <span className="text-indigo-600 font-semibold">{selectedWorker.musanedStatus}</span>
+                    <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs font-medium">
+                      <span className="text-slate-700">Musaned Contract</span>
+                      <span className="text-indigo-600 font-bold">{selectedWorker.musanedStatus}</span>
                     </div>
-                    <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs">
-                      <span className="font-medium text-slate-700">Enjaz Visa Stamping</span>
-                      <span className="text-amber-600 font-semibold">{selectedWorker.visaStatus}</span>
+                    <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs font-medium">
+                      <span className="text-slate-700">Enjaz Visa Stamping</span>
+                      <span className="text-amber-600 font-bold">{selectedWorker.visaStatus}</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Assessment Skills */}
                 <div>
-                  <h3 className="text-sm font-semibold text-slate-900 mb-3 flex items-center gap-2">
+                  <h3 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
                     <Award className="w-4 h-4 text-indigo-600" /> Candidate Assessment
                   </h3>
                   <div className="grid grid-cols-2 gap-3 text-xs">
                     <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
-                      <span className="text-slate-500 block">Experience</span>
-                      <span className="font-bold text-slate-800">{selectedWorker.experienceYears} Years</span>
+                      <span className="text-slate-500 block font-medium">Experience</span>
+                      <span className="font-bold text-slate-800 text-sm">{selectedWorker.experienceYears} Years</span>
                     </div>
                     <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
-                      <span className="text-slate-500 block">Arabic Level</span>
-                      <span className="font-bold text-slate-800">{selectedWorker.arabicLevel}</span>
+                      <span className="text-slate-500 block font-medium">Arabic Level</span>
+                      <span className="font-bold text-slate-800 text-sm">{selectedWorker.arabicLevel}</span>
                     </div>
                     <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 col-span-2">
-                      <span className="text-slate-500 block">Cooking Skill</span>
-                      <span className="font-bold text-slate-800">{selectedWorker.cookingSkill}</span>
+                      <span className="text-slate-500 block font-medium">Cooking Skill</span>
+                      <span className="font-bold text-slate-800 text-sm">{selectedWorker.cookingSkill}</span>
                     </div>
                   </div>
                 </div>
@@ -379,7 +380,7 @@ export default function WorkersPage() {
           <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
             <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-                <h3 className="text-lg font-bold text-slate-900">Register Candidate & Generate Bio-data</h3>
+                <h3 className="text-lg font-black text-slate-900">Register Candidate & Generate Bio-data</h3>
                 <button onClick={() => setShowAddModal(false)} className="text-slate-400 hover:text-slate-600">
                   <X className="w-5 h-5" />
                 </button>
@@ -387,63 +388,63 @@ export default function WorkersPage() {
               <form onSubmit={handleCreateWorker} className="space-y-4 text-sm">
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block font-medium text-slate-700 mb-1">First Name</label>
+                    <label className="block font-semibold text-slate-700 mb-1">First Name</label>
                     <input
                       type="text"
                       required
                       value={form.firstName}
                       onChange={(e) => setForm({ ...form, firstName: e.target.value })}
-                      className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none font-medium"
                     />
                   </div>
                   <div>
-                    <label className="block font-medium text-slate-700 mb-1">Last Name</label>
+                    <label className="block font-semibold text-slate-700 mb-1">Last Name</label>
                     <input
                       type="text"
                       required
                       value={form.lastName}
                       onChange={(e) => setForm({ ...form, lastName: e.target.value })}
-                      className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none font-medium"
                     />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block font-medium text-slate-700 mb-1">Passport Number</label>
+                    <label className="block font-semibold text-slate-700 mb-1">Passport Number</label>
                     <input
                       type="text"
                       required
                       value={form.passportNumber}
                       onChange={(e) => setForm({ ...form, passportNumber: e.target.value })}
-                      className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none font-mono text-xs"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none font-mono text-xs font-semibold"
                     />
                   </div>
                   <div>
-                    <label className="block font-medium text-slate-700 mb-1">Phone Number</label>
+                    <label className="block font-semibold text-slate-700 mb-1">Phone Number</label>
                     <input
                       type="text"
                       value={form.phone}
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                      className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none font-medium"
                     />
                   </div>
                 </div>
                 <div className="grid grid-cols-3 gap-3">
                   <div>
-                    <label className="block font-medium text-slate-700 mb-1">Experience (Yrs)</label>
+                    <label className="block font-semibold text-slate-700 mb-1">Experience (Yrs)</label>
                     <input
                       type="number"
                       value={form.experienceYears}
                       onChange={(e) => setForm({ ...form, experienceYears: e.target.value })}
-                      className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none font-medium"
                     />
                   </div>
                   <div>
-                    <label className="block font-medium text-slate-700 mb-1">Arabic Level</label>
+                    <label className="block font-semibold text-slate-700 mb-1">Arabic Level</label>
                     <select
                       value={form.arabicLevel}
                       onChange={(e) => setForm({ ...form, arabicLevel: e.target.value })}
-                      className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none font-medium"
                     >
                       <option value="Basic">Basic</option>
                       <option value="Intermediate">Intermediate</option>
@@ -451,11 +452,11 @@ export default function WorkersPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="block font-medium text-slate-700 mb-1">Gender</label>
+                    <label className="block font-semibold text-slate-700 mb-1">Gender</label>
                     <select
                       value={form.gender}
                       onChange={(e) => setForm({ ...form, gender: e.target.value })}
-                      className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none font-medium"
                     >
                       <option value="female">Female</option>
                       <option value="male">Male</option>
@@ -463,25 +464,25 @@ export default function WorkersPage() {
                   </div>
                 </div>
                 <div>
-                  <label className="block font-medium text-slate-700 mb-1">Cooking Skill & Assessment</label>
+                  <label className="block font-semibold text-slate-700 mb-1">Cooking Skill & Assessment</label>
                   <input
                     type="text"
                     value={form.cookingSkill}
                     onChange={(e) => setForm({ ...form, cookingSkill: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none font-medium"
                   />
                 </div>
                 <div className="flex justify-end gap-2 pt-2">
                   <button
                     type="button"
                     onClick={() => setShowAddModal(false)}
-                    className="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 font-medium"
+                    className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 font-semibold"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium shadow-md shadow-indigo-600/20"
+                    className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-md shadow-indigo-600/20"
                   >
                     Register & Auto-Generate CV
                   </button>
@@ -499,8 +500,8 @@ export default function WorkersPage() {
                 <div className="flex items-center gap-2">
                   <div className="bg-indigo-600 text-white p-2 rounded-xl font-bold">CV</div>
                   <div>
-                    <h3 className="text-xl font-bold text-slate-900">Official Musaned Bio-Data CV</h3>
-                    <p className="text-xs text-slate-500">Saudi Arabia Recruitment Export Document</p>
+                    <h3 className="text-xl font-black text-slate-900">Official Musaned Bio-Data CV</h3>
+                    <p className="text-xs text-slate-500 font-medium">Saudi Arabia Recruitment Export Document</p>
                   </div>
                 </div>
                 <button onClick={() => setShowCvModal(false)} className="text-slate-400 hover:text-slate-600">
@@ -511,10 +512,10 @@ export default function WorkersPage() {
               <div className="space-y-6 border border-slate-200 p-6 rounded-2xl bg-slate-50/50">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="text-2xl font-bold text-slate-900">{selectedWorker.firstName} {selectedWorker.lastName}</h4>
-                    <p className="text-sm text-indigo-600 font-medium">Position: Domestic Worker / Housemaid</p>
+                    <h4 className="text-2xl font-black text-slate-900">{selectedWorker.firstName} {selectedWorker.lastName}</h4>
+                    <p className="text-sm text-indigo-600 font-semibold">Position: Domestic Worker / Housemaid</p>
                   </div>
-                  <div className="text-right text-xs text-slate-500 font-mono">
+                  <div className="text-right text-xs text-slate-500 font-mono font-semibold">
                     Candidate ID: {selectedWorker.id}<br/>
                     Nationality: {selectedWorker.nationality}
                   </div>
@@ -522,40 +523,40 @@ export default function WorkersPage() {
 
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-xs bg-white p-4 rounded-xl border border-slate-200">
                   <div>
-                    <span className="text-slate-400 block">Passport No</span>
+                    <span className="text-slate-400 block font-medium">Passport No</span>
                     <span className="font-bold text-slate-800 font-mono">{selectedWorker.passportNumber}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400 block">Passport Expiry</span>
+                    <span className="text-slate-400 block font-medium">Passport Expiry</span>
                     <span className="font-bold text-slate-800">{selectedWorker.passportExpiryDate}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400 block">Phone</span>
+                    <span className="text-slate-400 block font-medium">Phone</span>
                     <span className="font-bold text-slate-800">{selectedWorker.phone}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400 block">Experience</span>
+                    <span className="text-slate-400 block font-medium">Experience</span>
                     <span className="font-bold text-slate-800">{selectedWorker.experienceYears} Years</span>
                   </div>
                   <div>
-                    <span className="text-slate-400 block">Arabic Proficiency</span>
+                    <span className="text-slate-400 block font-medium">Arabic Proficiency</span>
                     <span className="font-bold text-slate-800">{selectedWorker.arabicLevel}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400 block">GAMCA Medical</span>
+                    <span className="text-slate-400 block font-medium">GAMCA Medical</span>
                     <span className="font-bold text-emerald-600">{selectedWorker.medicalStatus}</span>
                   </div>
                 </div>
 
                 <div>
-                  <h5 className="font-semibold text-slate-900 text-sm mb-2">Verified Skills & Assessment</h5>
+                  <h5 className="font-bold text-slate-900 text-sm mb-2">Verified Skills & Assessment</h5>
                   <div className="flex flex-wrap gap-2">
                     {selectedWorker.skills.map((skill, i) => (
-                      <span key={i} className="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-lg text-xs font-medium border border-indigo-100">
+                      <span key={i} className="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-lg text-xs font-bold border border-indigo-100">
                         {skill}
                       </span>
                     ))}
-                    <span className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-lg text-xs font-medium border border-emerald-100">
+                    <span className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-lg text-xs font-bold border border-emerald-100">
                       Cooking: {selectedWorker.cookingSkill}
                     </span>
                   </div>
@@ -565,13 +566,13 @@ export default function WorkersPage() {
               <div className="flex justify-end gap-3 pt-2">
                 <button
                   onClick={() => window.print()}
-                  className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-medium text-sm shadow-md"
+                  className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm shadow-md"
                 >
                   Print / Download CV PDF
                 </button>
                 <button
                   onClick={() => setShowCvModal(false)}
-                  className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm shadow-md shadow-indigo-600/20"
+                  className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-md shadow-indigo-600/20"
                 >
                   Close
                 </button>
