@@ -1,5 +1,20 @@
 "use client";
+
 import React, { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { 
+  LayoutDashboard, 
+  Users, 
+  Building2, 
+  Briefcase, 
+  Kanban, 
+  FolderArchive, 
+  Settings, 
+  LogOut, 
+  Menu, 
+  X 
+} from "lucide-react";
 
 interface SidebarLayoutProps {
   children: React.ReactNode;
@@ -13,19 +28,14 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { name: "Workers", href: "/workers", icon: Users },
     { name: "Clients", href: "/clients", icon: Building2 },
-    { name: "Recruitment Orders", href: "/orders", icon: Briefcase },
+    { name: "E-Wakala / Job Orders", href: "/orders", icon: Briefcase },
     { name: "Pipeline Kanban", href: "/pipeline", icon: Kanban },
     { name: "Documents", href: "/documents", icon: FolderArchive },
     { name: "Settings", href: "/settings", icon: Settings },
   ];
 
   const handleLogout = async () => {
-    try {
-      await fetch("/api/auth/logout", { method: "POST" });
-      window.location.href = "/login";
-    } catch (e) {
-      console.error(e);
-    }
+    window.location.href = "/login";
   };
 
   return (
@@ -34,7 +44,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
       <div className="md:hidden bg-slate-900 text-white p-4 flex items-center justify-between shadow-md">
         <div className="flex items-center space-x-2">
           <div className="bg-indigo-600 p-2 rounded-lg font-bold text-lg">RA</div>
-          <span className="font-semibold text-lg">Recruitment Agency OS</span>
+          <span className="font-semibold text-lg">Agency OS</span>
         </div>
         <button 
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -56,7 +66,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
           </div>
           <div>
             <h1 className="font-bold text-white tracking-wide">Agency OS</h1>
-            <p className="text-xs text-slate-400">Recruitment Operations</p>
+            <p className="text-xs text-slate-400">Saudi Manpower Export</p>
           </div>
         </div>
 
