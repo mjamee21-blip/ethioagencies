@@ -1,347 +1,281 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import SidebarLayout from "@/components/SidebarLayout";
-import { ShieldCheck, Plus, Search, Trash2, X, RefreshCw } from "lucide-react";
+import { 
+  FileText, 
+  Calendar, 
+  CheckCircle2, 
+  Clock, 
+  Fingerprint, 
+  Building, 
+  Search, 
+  Plus, 
+  Trash2,
+  Plane,
+  X
+} from "lucide-react";
 
-interface Visa {
-  id: number;
-  visaNumber: string;
-  visaType: string;
-  issueDate: string;
-  expiryDate: string;
-  status: string;
+interface VisaAppointment {
+  id: string;
   workerName: string;
   passportNumber: string;
+  visaBlockNumber: string;
+  enjazApplicationNumber: string;
+  tasheelAppointmentDate: string;
+  embassySubmissionDate: string;
+  status: "Biometrics Completed" | "Scheduled at VFS Tasheel" | "Visa Stamped" | "Pending Medical";
 }
 
 export default function VisasPage() {
-  const [visas, setVisas] = useState<Visa[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [appointments, setAppointments] = useState<VisaAppointment[]>([]);
   const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
   const [showAddModal, setShowAddModal] = useState(false);
-  const [workers, setWorkers] = useState<any[]>([]);
 
   const [form, setForm] = useState({
-    workerId: "",
-    visaNumber: "",
-    externalRefNumber: "",
-    visaType: "employment",
-    issueDate: "",
-    expiryDate: "",
-    status: "PROCESSING",
+    workerName: "Fatima Ahmed",
+    passportNumber: "EP9821034",
+    visaBlockNumber: "1309827165",
+    enjazApplicationNumber: "E-88912739",
+    tasheelAppointmentDate: "2026-08-28",
+    embassySubmissionDate: "2026-09-02",
+    status: "Scheduled at VFS Tasheel",
   });
 
-  const fetchData = async () => {
-    try {
-      const [resV, resW] = await Promise.all([
-        fetch(`/api/visas?search=${encodeURIComponent(search)}&status=${statusFilter}`),
-        fetch("/api/workers"),
-      ]);
-      const dataV = await resV.json();
-      const dataW = await resW.json();
-
-      setVisas(dataV.visas || []);
-      setWorkers(dataW.workers || []);
-      setLoading(false);
-    } catch (err) {
-      console.error(err);
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchData();
-  }, [search, statusFilter]);
+    const saved = localStorage.getItem("agency_visas");
+    if (saved) {
+      try {
+        setAppointments(JSON.parse(saved));
+      } catch (e) {}
+    } else {
+      const initial: VisaAppointment[] = [
+        {
+          id: "VFS-101",
+          workerName: "Fatima Ahmed",
+          passportNumber: "EP9821034",
+          visaBlockNumber: "1309827165",
+          enjazApplicationNumber: "E-88912739",
+          tasheelAppointmentDate: "2026-08-28",
+          embassySubmissionDate: "2026-09-02",
+          status: "Visa Stamped",
+        },
+        {
+          id: "VFS-102",
+          workerName: "Tigist Mekonnen",
+          passportNumber: "EP4452910",
+          visaBlockNumber: "1309827165",
+          enjazApplicationNumber: "E-44519283",
+          tasheelAppointmentDate: "2026-09-05",
+          embassySubmissionDate: "2026-09-10",
+          status: "Scheduled at VFS Tasheel",
+        },
+      ];
+      setAppointments(initial);
+      localStorage.setItem("agency_visas", JSON.stringify(initial));
+    }
+  }, []);
 
-  const handleCreate = async (e: React.FormEvent) => {
+  const saveAppointments = (updated: VisaAppointment[]) => {
+    setAppointments(updated);
+    localStorage.setItem("agency_visas", JSON.stringify(updated));
+  };
+
+  const handleCreate = (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const res = await fetch("/api/visas", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (res.ok) {
-        setShowAddModal(false);
-        setForm({
-          workerId: "",
-          visaNumber: "",
-          externalRefNumber: "",
-          visaType: "employment",
-          issueDate: "",
-          expiryDate: "",
-          status: "PROCESSING",
-        });
-        fetchData();
-      } else {
-        const errData = await res.json();
-        alert(errData.error || "Failed to create visa record");
-      }
-    } catch (err) {
-      console.error(err);
-    }
+    const newA: VisaAppointment = {
+      id: `VFS-${Math.floor(100 + Math.random() * 900)}`,
+      workerName: form.workerName,
+      passportNumber: form.passportNumber,
+      visaBlockNumber: form.visaBlockNumber,
+      enjazApplicationNumber: form.enjazApplicationNumber,
+      tasheelAppointmentDate: form.tasheelAppointmentDate,
+      embassySubmissionDate: form.embassySubmissionDate,
+      status: form.status as any,
+    };
+    const updated = [newA, ...appointments];
+    saveAppointments(updated);
+    setShowAddModal(false);
   };
 
-  const handleSync = async (id: number) => {
-    try {
-      const res = await fetch(`/api/visas/${id}/sync`, { method: "POST" });
-      const data = await res.json();
-      if (res.ok) {
-        alert(data.message);
-        fetchData();
-      } else {
-        alert(data.error || "Sync failed");
-      }
-    } catch (err) {
-      console.error(err);
-    }
+  const handleDelete = (id: string) => {
+    const updated = appointments.filter((a) => a.id !== id);
+    saveAppointments(updated);
   };
 
-  const handleDelete = async (id: number) => {
-    if (!confirm("Are you sure you want to delete this visa record?")) return;
-    try {
-      const res = await fetch(`/api/visas/${id}`, { method: "DELETE" });
-      if (res.ok) {
-        fetchData();
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const getStatusBadge = (status: string) => {
-    const s = status.toUpperCase();
-    let bg = "bg-slate-100 text-slate-700 border-slate-200";
-    if (s === "APPROVED") bg = "bg-emerald-50 text-emerald-700 border-emerald-200";
-    if (s === "PROCESSING" || s === "SUBMITTED") bg = "bg-amber-50 text-amber-700 border-amber-200";
-    if (s === "REJECTED" || s === "EXPIRED") bg = "bg-red-50 text-red-700 border-red-200";
-    return (
-      <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-semibold border ${bg}`}>
-        {status}
-      </span>
-    );
-  };
+  const filtered = appointments.filter((a) =>
+    `${a.workerName} ${a.passportNumber} ${a.enjazApplicationNumber} ${a.visaBlockNumber}`
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  );
 
   return (
     <SidebarLayout>
-      <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="space-y-8 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-200 pb-5">
           <div>
-            <h1 className="text-2xl font-black text-slate-900 tracking-tight">Visa Tracking & Management</h1>
-            <p className="text-sm text-slate-500 mt-1">Track worker visas, external reference numbers, status updates, and manual synchronization.</p>
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+              <Fingerprint className="w-7 h-7 text-indigo-600" /> VFS Tasheel Biometrics & Saudi Visa Tracker
+            </h1>
+            <p className="text-sm text-slate-500 mt-1">
+              Manage Enjaz application numbers, VFS Tasheel fingerprinting appointments, and Saudi Embassy visa stamping schedules.
+            </p>
           </div>
           <button
             onClick={() => setShowAddModal(true)}
-            className="inline-flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2.5 rounded-xl shadow-lg shadow-indigo-600/25 transition-all text-sm"
+            className="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 py-2.5 rounded-2xl shadow-lg shadow-indigo-600/30 transition-all text-sm"
           >
-            <Plus className="w-4 h-4 mr-2" /> Add Visa Record
+            <Plus className="w-4 h-4" /> Book Biometrics Appointment
           </button>
         </div>
 
-        {/* Filters & Search */}
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center gap-4 justify-between">
+        {/* Search */}
+        <div className="flex items-center justify-between bg-white p-4 rounded-3xl shadow-sm border border-slate-200/80">
           <div className="relative w-full md:w-96">
             <Search className="absolute left-3.5 top-3 w-4 h-4 text-slate-400" />
             <input
               type="text"
-              placeholder="Search visa number or type..."
+              placeholder="Search candidate, passport, Enjaz #..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
+              className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 bg-slate-50/50 font-medium"
             />
-          </div>
-          <div className="flex items-center gap-2 w-full md:w-auto">
-            <span className="text-xs font-semibold text-slate-500">Status:</span>
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
-            >
-              <option value="all">All Statuses</option>
-              <option value="NOT_STARTED">NOT_STARTED</option>
-              <option value="SUBMITTED">SUBMITTED</option>
-              <option value="PROCESSING">PROCESSING</option>
-              <option value="APPROVED">APPROVED</option>
-              <option value="REJECTED">REJECTED</option>
-              <option value="EXPIRED">EXPIRED</option>
-            </select>
           </div>
         </div>
 
-        {/* Visas Table */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          {loading ? (
-            <div className="p-12 text-center text-slate-500">Loading visas...</div>
-          ) : visas.length === 0 ? (
-            <div className="p-12 text-center text-slate-500">No visa records found.</div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                    <th className="p-4">Visa Number</th>
-                    <th className="p-4">Worker</th>
-                    <th className="p-4">Type</th>
-                    <th className="p-4">Expiry Date</th>
-                    <th className="p-4">Status</th>
-                    <th className="p-4 text-right">Actions</th>
+        {/* Visa Table */}
+        <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200/80 overflow-hidden space-y-4">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse text-sm">
+              <thead>
+                <tr className="bg-slate-50 text-xs font-bold text-slate-600 uppercase tracking-wider border-b border-slate-200">
+                  <th className="p-4">Candidate</th>
+                  <th className="p-4">Enjaz App #</th>
+                  <th className="p-4">Visa Block #</th>
+                  <th className="p-4">VFS Tasheel Biometrics</th>
+                  <th className="p-4">Status</th>
+                  <th className="p-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {filtered.map((a) => (
+                  <tr key={a.id} className="hover:bg-slate-50/50">
+                    <td className="p-4">
+                      <div className="font-bold text-slate-900">{a.workerName}</div>
+                      <div className="text-xs text-slate-500 font-mono">Passport: {a.passportNumber}</div>
+                    </td>
+                    <td className="p-4 font-mono font-bold text-indigo-600">{a.enjazApplicationNumber}</td>
+                    <td className="p-4 font-mono text-slate-700">{a.visaBlockNumber}</td>
+                    <td className="p-4">
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
+                        <Calendar className="w-3.5 h-3.5 text-indigo-600" /> {a.tasheelAppointmentDate}
+                      </div>
+                      <div className="text-[11px] text-slate-500">
+                        Embassy Target: {a.embassySubmissionDate}
+                      </div>
+                    </td>
+                    <td className="p-4">
+                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${
+                        a.status === "Visa Stamped" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" :
+                        a.status === "Biometrics Completed" ? "bg-indigo-50 text-indigo-700 border border-indigo-200" :
+                        "bg-amber-50 text-amber-700 border border-amber-200"
+                      }`}>
+                        {a.status}
+                      </span>
+                    </td>
+                    <td className="p-4 text-right">
+                      <button
+                        onClick={() => handleDelete(a.id)}
+                        className="text-slate-400 hover:text-red-600 p-2 rounded-lg transition-colors"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </td>
                   </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 text-sm">
-                  {visas.map((v) => (
-                    <tr key={v.id} className="hover:bg-slate-50/80 transition-colors">
-                      <td className="p-4 font-semibold text-slate-900">{v.visaNumber}</td>
-                      <td className="p-4 text-slate-700 font-medium">
-                        {v.workerName || "N/A"} <br />
-                        <span className="text-xs text-slate-400 font-normal">Passport: {v.passportNumber || "N/A"}</span>
-                      </td>
-                      <td className="p-4 text-slate-600 uppercase text-xs font-semibold">{v.visaType}</td>
-                      <td className="p-4 text-slate-600 text-xs">
-                        {v.issueDate ? `Issued: ${new Date(v.issueDate).toLocaleDateString()}` : ""} <br />
-                        <span className="font-medium text-slate-800">Expires: {new Date(v.expiryDate).toLocaleDateString()}</span>
-                      </td>
-                      <td className="p-4">{getStatusBadge(v.status)}</td>
-                      <td className="p-4 text-right space-x-2">
-                        <button
-                          onClick={() => handleSync(v.id)}
-                          title="Sync Status with Portal"
-                          className="inline-flex items-center px-2.5 py-1.5 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 rounded-lg text-xs font-semibold transition-colors"
-                        >
-                          <RefreshCw className="w-3.5 h-3.5 mr-1" /> Sync
-                        </button>
-                        <button
-                          onClick={() => handleDelete(v.id)}
-                          className="p-1.5 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-colors inline-block"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {/* Modal */}
         {showAddModal && (
           <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-bold text-slate-900">Add Visa Record</h2>
+            <div className="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 space-y-4">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                <h3 className="text-lg font-black text-slate-900">Schedule VFS Tasheel Biometrics</h3>
                 <button onClick={() => setShowAddModal(false)} className="text-slate-400 hover:text-slate-600">
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <form onSubmit={handleCreate} className="space-y-4">
+              <form onSubmit={handleCreate} className="space-y-4 text-sm">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Worker *</label>
-                  <select
+                  <label className="block font-bold text-slate-700 mb-1">Candidate Name</label>
+                  <input
+                    type="text"
                     required
-                    value={form.workerId}
-                    onChange={(e) => setForm({ ...form, workerId: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
-                  >
-                    <option value="">Select Worker</option>
-                    {workers.map((w) => (
-                      <option key={w.id} value={w.id}>
-                        {w.firstName} {w.lastName} ({w.passportNumber})
-                      </option>
-                    ))}
-                  </select>
+                    value={form.workerName}
+                    onChange={(e) => setForm({ ...form, workerName: e.target.value })}
+                    className="w-full px-3.5 py-2.5 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none font-medium"
+                  />
                 </div>
-
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Visa Number *</label>
+                    <label className="block font-bold text-slate-700 mb-1">Enjaz App Number</label>
                     <input
                       type="text"
                       required
-                      value={form.visaNumber}
-                      onChange={(e) => setForm({ ...form, visaNumber: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                      value={form.enjazApplicationNumber}
+                      onChange={(e) => setForm({ ...form, enjazApplicationNumber: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none font-mono text-xs font-bold"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">External Ref Number</label>
+                    <label className="block font-bold text-slate-700 mb-1">Visa Block Number</label>
                     <input
                       type="text"
-                      value={form.externalRefNumber}
-                      onChange={(e) => setForm({ ...form, externalRefNumber: e.target.value })}
-                      placeholder="e.g. MOI-98823"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                      required
+                      value={form.visaBlockNumber}
+                      onChange={(e) => setForm({ ...form, visaBlockNumber: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none font-mono text-xs font-bold"
                     />
                   </div>
                 </div>
-
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Visa Type *</label>
-                    <select
-                      value={form.visaType}
-                      onChange={(e) => setForm({ ...form, visaType: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
-                    >
-                      <option value="employment">Employment</option>
-                      <option value="visit">Visit</option>
-                      <option value="transit">Transit</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Status</label>
-                    <select
-                      value={form.status}
-                      onChange={(e) => setForm({ ...form, status: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
-                    >
-                      <option value="NOT_STARTED">NOT_STARTED</option>
-                      <option value="SUBMITTED">SUBMITTED</option>
-                      <option value="PROCESSING">PROCESSING</option>
-                      <option value="APPROVED">APPROVED</option>
-                      <option value="REJECTED">REJECTED</option>
-                      <option value="EXPIRED">EXPIRED</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Issue Date</label>
-                    <input
-                      type="date"
-                      value={form.issueDate}
-                      onChange={(e) => setForm({ ...form, issueDate: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Expiry Date *</label>
+                    <label className="block font-bold text-slate-700 mb-1">VFS Appointment Date</label>
                     <input
                       type="date"
                       required
-                      value={form.expiryDate}
-                      onChange={(e) => setForm({ ...form, expiryDate: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                      value={form.tasheelAppointmentDate}
+                      onChange={(e) => setForm({ ...form, tasheelAppointmentDate: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none font-medium"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Embassy Target Date</label>
+                    <input
+                      type="date"
+                      required
+                      value={form.embassySubmissionDate}
+                      onChange={(e) => setForm({ ...form, embassySubmissionDate: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none font-medium"
                     />
                   </div>
                 </div>
-
-                <div className="flex justify-end space-x-3 pt-4 border-t border-slate-100">
+                <div className="flex justify-end gap-2 pt-2">
                   <button
                     type="button"
                     onClick={() => setShowAddModal(false)}
-                    className="px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50"
+                    className="px-4 py-2.5 rounded-2xl border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-semibold hover:bg-indigo-700 shadow-md shadow-indigo-600/20"
+                    className="px-5 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-md shadow-indigo-600/30"
                   >
-                    Save Visa Record
+                    Save Appointment
                   </button>
                 </div>
               </form>
