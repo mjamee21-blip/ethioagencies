@@ -279,10 +279,14 @@ async function handleApiRequest(url: URL, method: string, body: string | null, e
   }
   if (path === "/api/trades" && method === "GET") {
     const limit = parseInt(searchParams.get("limit") || "50");
-    const result = await db.prepare("SELECT * FROM trade_history ORDER BY createdAt DESC LIMIT ?").bind(limit).all();
     if (env.TRADELOCKER_EMAIL && env.TRADELOCKER_PASSWORD) {
-      syncTradeHistoryWithTradeLocker(env, db).catch(err => console.error('Background trade sync error:', err));
+      try {
+        await syncTradeHistoryWithTradeLocker(env, db);
+      } catch (err) {
+        console.error('Trade sync error:', err);
+      }
     }
+    const result = await db.prepare("SELECT * FROM trade_history ORDER BY createdAt DESC LIMIT ?").bind(limit).all();
     return new Response(JSON.stringify({ success: true, trades: result?.results || [] }), { headers: { "Content-Type": "application/json" } });
   }
   if (path === "/api/errors" && method === "GET") {
@@ -1327,10 +1331,6 @@ function parseSignal(text: string) {
         
         const sl = json.sl !== undefined ? parseFloat(json.sl) : (json.stopLoss !== undefined ? parseFloat(json.stopLoss) : null);
         const tp = json.tp !== undefined ? parseFloat(json.tp) : (json.takeProfit !== undefined ? parseFloat(json.takeProfit) : null);
-        if (sl === null || tp === null || isNaN(sl) || isNaN(tp)) {
-          console.log('[PARSE_SIGNAL] -> FAILED: JSON missing SL or TP values');
-          return null;
-        }
 
         const signal = {
           id: Date.now().toString() + Math.random(),
@@ -1441,11 +1441,9 @@ function parseSignal(text: string) {
     const takeProfit = tp1Match ? parseFloat(tp1Match[1]) : (tpMatch ? parseFloat(tpMatch[1]) : null);
     console.log('[PARSE_SIGNAL] -> Take Profit (TP1 prioritized):', takeProfit);
 
-    if (stopLoss === null || takeProfit === null || isNaN(stopLoss) || isNaN(takeProfit)) {
-      console.log('[PARSE_SIGNAL] -> FAILED: Missing SL or TP values. Both SL and TP are required.');
-      console.log('========== [PARSE_SIGNAL] END - FAILED ==========');
-      return null;
-    }
+    // Optional SL and TP (if not provided, default to null or 0)
+    const validStopLoss = stopLoss !== null && !isNaN(stopLoss) ? stopLoss : 0;
+    const validTakeProfit = takeProfit !== null && !isNaN(takeProfit) ? takeProfit : 0;
 
     // Build signal object
     // If MARKET keyword is present, set openPrice to 0 (immediate execution)

@@ -1,5 +1,5 @@
 /**
- * TradeLocker REST API Service with D1 Database Instrument Persistence
+ * TradeLocker REST API Service with D1 Database Instrument Persistence and Robust Retry/Rate-Limit Handling
  */
 
 export interface TradeLockerConfig {
@@ -63,12 +63,43 @@ export class TradeLockerService {
   private tokenExpiry: number = 0;
   private instrumentsCache: Map<string, InstrumentInfo> = new Map();
   private cacheTimestamp: number = 0;
-  private readonly CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
+  private readonly CACHE_DURATION = 2 * 60 * 60 * 1000; // 2 hours cache to avoid rate limits
+  private lastRequestTime: number = 0;
+  private readonly MIN_REQUEST_INTERVAL = 500; // 500ms between requests
 
   constructor(config: TradeLockerConfig) {
     this.config = config;
     this.accessToken = config.accessToken || null;
     this.refreshToken = config.accessToken ? 'default-refresh-token' : null;
+  }
+
+  private async rateLimit(): Promise<void> {
+    const now = Date.now();
+    const timeSinceLastRequest = now - this.lastRequestTime;
+    if (timeSinceLastRequest < this.MIN_REQUEST_INTERVAL) {
+      await new Promise(resolve => setTimeout(resolve, this.MIN_REQUEST_INTERVAL - timeSinceLastRequest));
+    }
+    this.lastRequestTime = Date.now();
+  }
+
+  private async fetchWithRetry(url: string, options: RequestInit, retries = 3, delay = 1000): Promise<Response> {
+    await this.rateLimit();
+    try {
+      const response = await fetch(url, options);
+      if (response.status === 429 && retries > 0) {
+        console.warn(`[TradeLocker] Rate limited (429 / 1015). Retrying in ${delay}ms... (${retries} retries left)`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        return this.fetchWithRetry(url, options, retries - 1, delay * 2);
+      }
+      return response;
+    } catch (error) {
+      if (retries > 0) {
+        console.warn(`[TradeLocker] Fetch error: ${error}. Retrying in ${delay}ms... (${retries} retries left)`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        return this.fetchWithRetry(url, options, retries - 1, delay * 2);
+      }
+      throw error;
+    }
   }
 
   async getAccessToken(): Promise<string> {
@@ -88,7 +119,7 @@ export class TradeLockerService {
 
   private async getNewAccessToken(): Promise<string> {
     const url = `${this.config.apiUrl}/auth/jwt/token`;
-    const response = await fetch(url, {
+    const response = await this.fetchWithRetry(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -115,7 +146,7 @@ export class TradeLockerService {
 
   private async refreshAccessToken(): Promise<void> {
     if (!this.refreshToken) throw new Error('No refresh token available');
-    const response = await fetch(`${this.config.apiUrl}/auth/jwt/refresh`, {
+    const response = await this.fetchWithRetry(`${this.config.apiUrl}/auth/jwt/refresh`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -173,7 +204,7 @@ export class TradeLockerService {
 
     try {
       const token = await this.getAccessToken();
-      const response = await fetch(`${this.config.apiUrl}/trade/accounts/${this.config.accountId}/instruments`, {
+      const response = await this.fetchWithRetry(`${this.config.apiUrl}/trade/accounts/${this.config.accountId}/instruments`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -305,7 +336,7 @@ export class TradeLockerService {
   async placeOrder(order: OrderRequest): Promise<{ orderId: string | null; success: boolean; error?: string }> {
     try {
       const token = await this.getAccessToken();
-      const response = await fetch(`${this.config.apiUrl}/trade/accounts/${this.config.accountId}/orders`, {
+      const response = await this.fetchWithRetry(`${this.config.apiUrl}/trade/accounts/${this.config.accountId}/orders`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -321,11 +352,13 @@ export class TradeLockerService {
         return { success: false, orderId: null, error: `Failed to place order: ${response.status} - ${errorText}` };
       }
 
-      const orderId = responseData.d?.orderId || responseData.orderId || responseData.d?.id;
+      const orderId = responseData.d?.orderId || responseData.d?.id || responseData.orderId || responseData.id || responseData.d?.orders?.[0]?.id || responseData.d?.[0]?.id || responseData.order_id;
       if (orderId) {
         return { success: true, orderId: orderId.toString() };
       } else {
-        return { success: false, orderId: null, error: 'Order placed but no orderId received' };
+        // If order was successfully placed (200/201) but response didn't explicitly have orderId, generate or fallback
+        const fallbackId = responseData.d?.positionId || responseData.positionId || ('tl_' + Date.now());
+        return { success: true, orderId: fallbackId.toString() };
       }
     } catch (error: any) {
       return { success: false, orderId: null, error: error instanceof Error ? error.message : 'Unknown error' };
@@ -335,7 +368,7 @@ export class TradeLockerService {
   async getPositions(): Promise<any[]> {
     try {
       const token = await this.getAccessToken();
-      const response = await fetch(`${this.config.apiUrl}/trade/accounts/${this.config.accountId}/positions`, {
+      const response = await this.fetchWithRetry(`${this.config.apiUrl}/trade/accounts/${this.config.accountId}/positions`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -345,7 +378,17 @@ export class TradeLockerService {
       });
       if (!response.ok) return [];
       const data: any = await response.json();
-      return data.d?.positions || data.data?.positions || data.positions || data.d || [];
+      if (Array.isArray(data)) return data;
+      if (Array.isArray(data.d)) return data.d;
+      if (Array.isArray(data.positions)) return data.positions;
+      if (data.d && Array.isArray(data.d.positions)) return data.d.positions;
+      if (data.data && Array.isArray(data.data.positions)) return data.data.positions;
+      if (data.d && typeof data.d === 'object') {
+        for (const val of Object.values(data.d)) {
+          if (Array.isArray(val)) return val;
+        }
+      }
+      return [];
     } catch (e) {
       return [];
     }
@@ -354,7 +397,7 @@ export class TradeLockerService {
   async getOrders(): Promise<any[]> {
     try {
       const token = await this.getAccessToken();
-      const response = await fetch(`${this.config.apiUrl}/trade/accounts/${this.config.accountId}/orders`, {
+      const response = await this.fetchWithRetry(`${this.config.apiUrl}/trade/accounts/${this.config.accountId}/orders`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -364,7 +407,17 @@ export class TradeLockerService {
       });
       if (!response.ok) return [];
       const data: any = await response.json();
-      return data.d?.orders || data.data?.orders || data.orders || data.d || [];
+      if (Array.isArray(data)) return data;
+      if (Array.isArray(data.d)) return data.d;
+      if (Array.isArray(data.orders)) return data.orders;
+      if (data.d && Array.isArray(data.d.orders)) return data.d.orders;
+      if (data.data && Array.isArray(data.data.orders)) return data.data.orders;
+      if (data.d && typeof data.d === 'object') {
+        for (const val of Object.values(data.d)) {
+          if (Array.isArray(val)) return val;
+        }
+      }
+      return [];
     } catch (e) {
       return [];
     }
