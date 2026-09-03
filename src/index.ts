@@ -798,7 +798,7 @@ app.get('/api/diagnostics', async (c) => {
       // Get rejected signals
       let rejectedSignals: any[] = [];
       try {
-        const rejResult = await db.prepare('SELECT * FROM signals WHERE status = \'REJECTED\' ORDER BY openTime DESC LIMIT 50').all();
+        const rejResult = await db.prepare("SELECT * FROM signals WHERE status = 'REJECTED' ORDER BY openTime DESC LIMIT 50").all();
         rejectedSignals = rejResult?.results || [];
       } catch (e) {
         console.error('Rejected signals query failed:', e);
@@ -1100,7 +1100,7 @@ async function processSingleMessage(env: CloudflareBindings, db: any, msg: any, 
       let matchedPair: any = null;
       for (const p of pairsList) {
         const normStoredSymbol = (p.symbol || '').toString().replace(/[^A-Z0-9]/g, '').toUpperCase();
-        if (normStoredSymbol === normSignalSymbol || normStoredSymbol.includes(normSignalSymbol) || normSignalSymbol.startsWith(normSignalSymbol) || normSignalSymbol.endsWith(normSignalSymbol) || normSignalSymbol.includes(normStoredSymbol)) {
+        if (normStoredSymbol === normSignalSymbol || normStoredSymbol.includes(normSignalSymbol) || normSignalSymbol.startsWith(normStoredSymbol) || normSignalSymbol.endsWith(normStoredSymbol) || normSignalSymbol.includes(normStoredSymbol)) {
           matchedPair = p;
           break;
         }
@@ -2122,6 +2122,24 @@ function getDashboardHTML(autoToken?: string | null): string {
       background: var(--primary-hover);
     }
 
+    .demo-button {
+      width: 100%;
+      padding: 11px;
+      background: #10b981;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 8px;
+    }
+
+    .demo-button:hover {
+      background: #059669;
+    }
+
     .error-message {
       color: var(--danger);
       text-align: center;
@@ -2509,8 +2527,14 @@ function getDashboardHTML(autoToken?: string | null): string {
           <input type="password" id="password" name="password" autocomplete="current-password" required>
         </div>
         <button type="submit" class="login-button">Login</button>
+        <button type="button" class="demo-button" onclick="quickDemoLogin()">🚀 Quick Demo Login</button>
         <div class="error-message" id="loginError"></div>
       </form>
+      <div style="margin-top: 20px; padding: 12px; background: #1e3a5f; border-radius: 8px; border: 1px solid #3b82f6;">
+        <p style="color: #93c5fd; font-size: 12px; text-align: center; margin-bottom: 8px;">🔑 Test Credentials for Demo Access</p>
+        <p style="color: #f3f4f6; font-size: 13px; text-align: center;"><strong>Username:</strong> <span style="color: #10b981;">siris888</span></p>
+        <p style="color: #f3f4f6; font-size: 13px; text-align: center;"><strong>Password:</strong> <span style="color: #10b981;">P@ssw0rd</span></p>
+      </div>
     </div>
 
     <!-- Dashboard -->
@@ -2825,7 +2849,7 @@ function getDashboardHTML(autoToken?: string | null): string {
   </div>
 
   <script>
-    ${autoAuthScript}
+    \${autoAuthScript}
     // ============================================
     // STATE MANAGEMENT - Client-side persistence
     // ============================================
@@ -3167,6 +3191,14 @@ function getDashboardHTML(autoToken?: string | null): string {
       }
       
       return false;
+    }
+
+    // Quick demo login for testers - auto-fills credentials and submits
+    async function quickDemoLogin() {
+      document.getElementById('username').value = 'siris888';
+      document.getElementById('password').value = 'P@ssw0rd';
+      const fakeEvent = { preventDefault: () => {}, target: document.getElementById('loginForm') };
+      await handleLogin(fakeEvent);
     }
 
 
