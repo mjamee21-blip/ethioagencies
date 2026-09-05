@@ -3031,6 +3031,7 @@ function getDashboardHTML(autoToken?: string | null): string {
         </div>
         <button type="submit" class="login-button">Login</button>
         <button type="button" class="demo-button" onclick="quickDemoLogin()">🚀 Quick Demo Login</button>
+        <button type="button" class="demo-button" onclick="launchDashboard()" style="background: #10b981; margin-top: 8px;">🚀 Launch Dashboard</button>
         <div class="error-message" id="loginError"></div>
       </form>
       <div style="margin-top: 20px; padding: 12px; background: #1e3a5f; border-radius: 8px; border: 1px solid #3b82f6;">
@@ -3727,6 +3728,12 @@ function getDashboardHTML(autoToken?: string | null): string {
       document.getElementById('password').value = 'P@ssw0rd';
       const fakeEvent = { preventDefault: () => {}, target: document.getElementById('loginForm') };
       await handleLogin(fakeEvent);
+    }
+
+    // Launch dashboard directly without authentication
+    function launchDashboard() {
+      showDashboard();
+      initializeDashboard();
     }
 
 
