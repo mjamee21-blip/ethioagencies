@@ -2197,6 +2197,11 @@ function getDashboardHTML(autoToken?: string | null): string {
       background: #fecaca;
     }
 
+    /* Logout button hidden - dashboard is publicly accessible */
+    .logout-button {
+      display: none !important;
+    }
+
     /* Hamburger Menu Styles */
     .hamburger-btn {
       display: none;
@@ -3017,29 +3022,7 @@ function getDashboardHTML(autoToken?: string | null): string {
 <body>
   <div class="container">
     <!-- Login Screen -->
-    <div class="login-screen" id="loginScreen">
-      <h1>TradeLocker Bridge</h1>
-      <p>Automated Trading Dashboard</p>
-      <form id="loginForm" onsubmit="return handleLogin(event)">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" autocomplete="username" required>
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" autocomplete="current-password" required>
-        </div>
-        <button type="submit" class="login-button">Login</button>
-        <button type="button" class="demo-button" onclick="quickDemoLogin()">🚀 Quick Demo Login</button>
-        <button type="button" class="demo-button" onclick="launchDashboard()" style="background: #10b981; margin-top: 8px;">🚀 Launch Dashboard</button>
-        <div class="error-message" id="loginError"></div>
-      </form>
-      <div style="margin-top: 20px; padding: 12px; background: #1e3a5f; border-radius: 8px; border: 1px solid #3b82f6;">
-        <p style="color: #93c5fd; font-size: 12px; text-align: center; margin-bottom: 8px;">🔑 Test Credentials for Demo Access</p>
-        <p style="color: #f3f4f6; font-size: 13px; text-align: center;"><strong>Username:</strong> <span style="color: #10b981;">siris888</span></p>
-        <p style="color: #f3f4f6; font-size: 13px; text-align: center;"><strong>Password:</strong> <span style="color: #10b981;">P@ssw0rd</span></p>
-      </div>
-    </div>
+    <!-- Login screen removed - dashboard is now fully public and accessible to all visitors -->
 
     <!-- Mobile Navigation Menu -->
     <div class="mobile-nav-menu" id="mobileNavMenu" onclick="closeMobileNavOnBackdrop(event)">
@@ -3685,71 +3668,14 @@ function getDashboardHTML(autoToken?: string | null): string {
     }
 
     // ============================================
-    // LOGIN & AUTH - Dashboard is now publicly accessible
+    // DASHBOARD INITIALIZATION - Fully public, no login required
     // ============================================
     
-    // Always show dashboard without requiring authentication
-    showDashboard();
+    // Initialize dashboard on page load
     initializeDashboard();
 
-    async function handleLogin(event) {
-      event.preventDefault();
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      
-      try {
-        const resp = await fetch('/api/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password })
-        });
-        
-        const data = await resp.json();
-        
-        if (data.success) {
-          authToken = data.token;
-          localStorage.setItem(STORAGE_KEYS.AUTH, authToken);
-          window.location.reload();
-        } else {
-          showError('Invalid username or password');
-          alert('Invalid username or password');
-        }
-      } catch (err) {
-        showError('Login error: ' + err.message);
-        alert('Login error: ' + err.message);
-      }
-      
-      return false;
-    }
-
-    // Quick demo login for testers - auto-fills credentials and submits
-    async function quickDemoLogin() {
-      document.getElementById('username').value = 'siris888';
-      document.getElementById('password').value = 'P@ssw0rd';
-      const fakeEvent = { preventDefault: () => {}, target: document.getElementById('loginForm') };
-      await handleLogin(fakeEvent);
-    }
-
-    // Launch dashboard directly without authentication
-    function launchDashboard() {
-      showDashboard();
-      initializeDashboard();
-    }
-
-
-    function showError(message) {
-      const errorEl = document.getElementById('loginError');
-      errorEl.textContent = message;
-      errorEl.classList.add('show');
-    }
-
-    function showLogin() {
-      document.getElementById('loginScreen').classList.remove('hidden');
-      document.getElementById('dashboard').classList.remove('active');
-    }
-
     function showDashboard() {
-      document.getElementById('loginScreen').classList.add('hidden');
+      // Dashboard is always visible - just ensure it has active class
       document.getElementById('dashboard').classList.add('active');
       // Ensure all sections are visible
       document.querySelectorAll('.tab-content').forEach(content => {
@@ -3797,11 +3723,12 @@ function getDashboardHTML(autoToken?: string | null): string {
     }
 
     function logout() {
+      // Dashboard is publicly accessible - logout simply clears local auth state
       localStorage.removeItem(STORAGE_KEYS.AUTH);
       authToken = null;
       isConnected = false;
-      addLog('info', 'User logged out');
-      showLogin();
+      addLog('info', 'Session cleared');
+      // No need to redirect - dashboard is always public
     }
 
     // ============================================
